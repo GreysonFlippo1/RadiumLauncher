@@ -11,7 +11,7 @@ const template = [
     label: app.name,
     submenu: [
       {
-         label: 'Preferences'
+        label: 'Preferences'
       },
       // {
       //    type: 'separator'
@@ -28,6 +28,9 @@ const template = [
       {
         role: 'reload'
       },
+      {
+        role: 'toggledevtools'
+      }
     ]
   },
 
@@ -66,12 +69,6 @@ const createWindow = () => {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }
-  })
-
-  contents = mainWindow.webContents
-
-  contents.on('did-finish-load', () => {
-    contents.setAudioMuted(true)
   })
 
   const menu = Menu.buildFromTemplate(template)
