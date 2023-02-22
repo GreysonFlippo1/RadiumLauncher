@@ -10,15 +10,15 @@ const template = [
   ...(isMac ? [{
     label: app.name,
     submenu: [
-      // {
-      //    label: 'Preferences'
-      // },
+      {
+         label: 'Preferences'
+      },
       // {
       //    type: 'separator'
       // },
       {
         role: 'quit',
-        label: 'Quit Open Music Visualizer'
+        label: 'Quit Radium Launcher'
       }
     ]
   }] : []),
@@ -28,104 +28,6 @@ const template = [
       {
         role: 'reload'
       },
-      {
-        role: 'toggledevtools'
-      }
-    ]
-  },
-
-  {
-    label: 'Options',
-    submenu: [
-      {
-        label: 'Visualizer Type',
-        submenu: [
-          {
-            label: 'Bouncy Bars',
-            click: () => {
-              changeVisualizer('bars')
-            }
-          },
-          {
-            label: 'Centered Bars',
-            click: () => {
-              changeVisualizer('centeredBars')
-            }
-          },
-          {
-            label: 'Wiggly Waveform',
-            click: () => {
-              changeVisualizer('wave')
-            }
-          },
-          {
-            label: 'Circular Waveform',
-            click: () => {
-              changeVisualizer('circle')
-            }
-          },
-          {
-            label: 'Concentric Circles',
-            click: () => {
-              changeVisualizer('concentricCircles')
-            }
-          },
-          {
-            label: 'Bubbles',
-            click: () => {
-              changeVisualizer('bubbles')
-            }
-          }
-        ]
-      },
-      {
-        label: 'Change Audio Source',
-        click: () => {
-          changeAudioSource()
-        }
-      },
-      {
-        type: 'separator'
-      },
-      {
-        label: 'Boost Input Signal',
-        type: 'checkbox',
-        checked: false,
-        click: () => {
-          settings.boosted_audio = !settings.boosted_audio
-          changeSettings()
-        }
-      },
-      {
-        label: 'Color Cycle',
-        type: 'checkbox',
-        checked: true,
-        click: () => {
-          settings.color_cycle = !settings.color_cycle
-          changeSettings()
-        }
-      },
-      {
-        type: 'separator'
-      },
-      {
-        label: 'Extra Tall Bars',
-        type: 'checkbox',
-        checked: true,
-        click: () => {
-          settings.tall_bars = !settings.tall_bars
-          changeSettings()
-        }
-      },
-      {
-        label: 'Rounded Bars',
-        type: 'checkbox',
-        checked: false,
-        click: () => {
-          settings.rounded_bars = !settings.rounded_bars
-          changeSettings()
-        }
-      }
     ]
   },
 
@@ -154,36 +56,13 @@ const template = [
   }
 ]
 
-let contents
-
-const changeVisualizer = (type) => {
-  contents.send('changeVisualizer', [type])
-}
-
-const changeAudioSource = () => {
-  contents.send('changeAudioSource', [true])
-}
-
-const settings = {
-  tall_bars: true,
-  boosted_audio: false,
-  rounded_bars: false,
-  color_cycle: true
-}
-
-const changeSettings = () => {
-  contents.send('changeSettings', Object.keys(settings).map(setting => settings[setting]))
-}
 
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 1920,
     height: 1080,
-    title: 'Open Music Visualizer',
-    transparent: true,
-    titleBarStyle: 'hiddenInset',
-    frame: false,
+    title: 'Radium Launcher',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }
