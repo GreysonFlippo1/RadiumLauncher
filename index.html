@@ -1,0 +1,23 @@
+<!--index.html-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>Open Music Visualizer</title>
+    <link rel="stylesheet" type="text/css" href="./styles.css">
+  </head>
+  <body>
+    <div id="titleBar"></div>
+    <div id="settingsPanel">
+      <p id="settingsTitle">
+        Select Audio Source
+      </p>
+      <ul id="settingsList">
+      </ul>
+    </div>
+    <canvas id="canvas1"></canvas>
+  </body>
+</html>
