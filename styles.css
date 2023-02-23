@@ -2,6 +2,10 @@ body {
     background-color: #222222;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 #appList {
     position: fixed;
     top: 0px;
@@ -27,12 +31,98 @@ body {
     padding-right: 5px;
 }
 
+#filterBar {
+    position: fixed;
+    top: 76px;
+    height: 32px;
+    width: 310px;
+    background-color: rgba(255,255,255,0.1);
+    border: 1px solid rgba(0,0,0,0.5);
+    border-radius: 7px;
+    left: 14px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+#scrollableList {
+    position: fixed;
+    width: 312px;
+    left: 14px;
+    top: 122px;
+    height: calc(100% - 136px);
+    border-radius: 7px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    /* background-image: linear-gradient(rgba(201, 54, 209, 0.2) 0%, rgba(229, 94, 45, 0.2) 100%); */
+}
+
+.listLabel {
+    color: #fff;
+    font-family: Tahoma, sans-serif;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.listDivider {
+    width: 33%;
+    height: 1px;
+    background-color: rgba(255,255,255,0.3);
+    border: 1px solid rgba(255,255,255,0.3);
+    margin-bottom: 5px;
+}
+
 #gameDetails {
     position: fixed;
     top: 0px;
     left: 341px;
     width: calc(100% - 341px);
     height: 100%;
+    overflow-y: auto;
+}
+
+.gameLink {
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: start;
+    color: #ccc;
+    border-radius: 7px;
+}
+
+.selectedGame {
+    color: #fff;
+    background-image: linear-gradient(90deg, rgba(201, 54, 209, 0.5) 0%, rgba(229, 94, 45, 0.5) 100%);
+}
+
+.gameLink:hover {
+    color: #fff;
+    cursor: pointer;
+    background-color: rgba(0,0,0,0.3);
+}
+
+.gameLinkIcon {
+    width: 22px;
+    height: 22px;
+    background-color: #ad4897;
+    border-radius: 5px;
+    margin-top: 4px;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+.gameLinkTitle {
+    font-family: Tahoma, sans-serif;
+    line-height: 30px;
 }
 
 #navBar {
@@ -42,10 +132,46 @@ body {
     border-radius: 7px;
     border: 1px solid rgba(0,0,0,0.5);
     background-color: rgba(255,255,255,0.1);
-    color: white;
-    font-size: 18px;
     width: 500px;
     left: calc(50% - 80px);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    z-index: 3;
+}
+
+.navItem {
+    position: relative;
+    color: #ccc;
+    font-family: Tahoma, sans-serif;
+    font-size: 15px;
+    flex: 1 1 0px;
+    text-align: center;
+    height: 100%;
+    line-height: 30px;
+    border-radius: 7px;
+}
+
+.activeFilter {
+    color: #fff;
+}
+
+.navItem:hover {
+    cursor: pointer;
+    background-color: rgba(255,255,255,0.1);
+}
+
+.navDivider {
+    width: 1px;
+    height: 66%;
+    background-color: rgba(255,255,255,0.05);
+    position: relative;
+    top: 17%;
+}
+
+.activeTab {
+    color: #fff;
 }
 
 #gameBanner {
@@ -54,8 +180,8 @@ body {
     left: 14px;
     width: calc(100% - 28px);
     height: 600px;
-    /* background-image: linear-gradient(140deg, #ad4897 0%, #764466 50%, #9e581e 75%); */
-    background-image: url('rdr2title.png');
+    /* background-image: linear-gradient(140deg, #ad4897 0%, #764466 50%, #9e581e 80%); */
+    background-image: url('rdr2.png');
     background-size: cover;
     background-position: 50% 50%;
     background-color: rgba(255,255,255,0.2);
@@ -66,7 +192,7 @@ body {
     position: absolute;
     bottom: 20px;
     left: 20px;
-    width: 200px;
+    width: 225px;
     height: 50px;
     background-color: rgba(0,0,0,0.5);
     background-image: linear-gradient(90deg, rgba(201, 54, 209, 0.9) 0%, rgba(229, 94, 45, 0.9) 100%);
@@ -122,4 +248,81 @@ body {
     background-color: rgba(255,255,255,0.8);
     border-radius: 3px;
     box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.43);
+}
+
+#panes {
+    position: absolute;
+    top: 706px;
+    left: 14px;
+    width: calc(100% - 28px);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.pane {
+    width: calc(50% - 9px);
+    height: 365px;
+    background-color: rgba(0,0,0,0.2);
+    border: 1px solid black;
+    border-radius: 15px;
+    min-width: 700px;
+    margin-bottom: 14px;
+    font-family: Tahoma, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.friendsTitle {
+    color: #fff;
+    font-size: 25px;
+    width: calc(100% - 40px);
+    height: 80px;
+    line-height: 80px;
+    padding-left: 40px;
+}
+
+.friendsPaneDivider {
+    width: 250px;
+    height: 1px;
+    background-color: rgba(255,255,255,0.8);
+    margin-left: 40px;
+}
+
+.friendsList {
+    width: calc(100% - 70px);
+    margin-left: 40px;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: start;
+    max-height: 70px;
+    height: 70px;
+    overflow: hidden;
+}
+
+#friendsNowPlayingList {
+    max-height: 40px;
+    height: 40px;
+}
+
+.friendLinkIcon {
+    width: 30px;
+    height: 30px;
+    background-color: #da864e;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.achievementsTitle {
+    color: #fff;
+    font-size: 25px;
+    width: calc(100% - 40px);
+    height: 80px;
+    line-height: 80px;
+    padding-left: 40px;
 }
