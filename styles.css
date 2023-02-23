@@ -139,6 +139,7 @@ body {
     flex-wrap: nowrap;
     justify-content: space-between;
     z-index: 3;
+    backdrop-filter: blur(10px);
 }
 
 .navItem {
@@ -262,10 +263,9 @@ body {
 }
 
 .pane {
-    width: calc(50% - 9px);
+    width: calc(50% - 7px);
     height: 365px;
     background-color: rgba(0,0,0,0.2);
-    border: 1px solid black;
     border-radius: 15px;
     min-width: 700px;
     margin-bottom: 14px;
