@@ -25,12 +25,15 @@ const template = [
   {
     label: 'View',
     submenu: [
-      {
-        role: 'reload'
-      },
-      {
-        role: 'toggledevtools'
-      }
+      { role: 'reload' },
+      { role: 'forceReload' },
+      { role: 'toggleDevTools' },
+      { type: 'separator' },
+      { role: 'resetZoom' },
+      { role: 'zoomIn' },
+      { role: 'zoomOut' },
+      { type: 'separator' },
+      { role: 'togglefullscreen' }
     ]
   },
 
