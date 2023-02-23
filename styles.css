@@ -54,7 +54,72 @@ body {
     left: 14px;
     width: calc(100% - 28px);
     height: 600px;
-    background-image: linear-gradient(140deg, #ad4897 0%, #764466 50%, #9e581e 75%);
+    /* background-image: linear-gradient(140deg, #ad4897 0%, #764466 50%, #9e581e 75%); */
+    background-image: url('rdr2title.png');
+    background-size: cover;
+    background-position: 50% 50%;
     background-color: rgba(255,255,255,0.2);
     border-radius: 15px;
+}
+
+#playButton {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 200px;
+    height: 50px;
+    background-color: rgba(0,0,0,0.5);
+    background-image: linear-gradient(90deg, rgba(201, 54, 209, 0.9) 0%, rgba(229, 94, 45, 0.9) 100%);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    color: #fff;
+    font-family: Tahoma, sans-serif;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    box-shadow: 0px 0px 5px 1px rgba(20,20,20,0.43);
+}
+
+#playButton:hover {
+    background-image: linear-gradient(90deg, rgba(201, 54, 209, 0.69) 0%, rgba(229, 94, 45, 0.69) 100%);
+    cursor: pointer;
+    color: #ffffff;
+}
+
+#playText {
+    font-size: 23px;
+    position: relative;
+    line-height: 50px;
+    padding-right: 10px;
+    letter-spacing: 2px;
+}
+
+#playIcon {
+    font-size: 35px;
+    position: relative;
+    line-height: 46px;
+}
+
+#gameTitle {
+    position: absolute;
+    bottom: 165px;
+    left: 20px;
+    height: 5px;
+    font-size: 40px;
+    line-height: 40px;
+    font-family: Tahoma, sans-serif;
+    color: white;
+    text-shadow: 1px -1px 13px rgba(0,0,0,0.64);
+    font-weight: bold;
+}
+
+#gameDivider {
+    position: absolute;
+    bottom: 100px;
+    left: 25px;
+    width: 150px;
+    height: 5px;
+    background-color: rgba(255,255,255,0.8);
+    border-radius: 3px;
+    box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.43);
 }

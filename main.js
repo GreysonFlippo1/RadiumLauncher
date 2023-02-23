@@ -59,7 +59,6 @@ const template = [
   }
 ]
 
-
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
