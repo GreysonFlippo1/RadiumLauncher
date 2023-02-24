@@ -258,6 +258,16 @@ body {
     line-height: 46px;
 }
 
+#gameTitleShadow {
+    position:absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 100%;
+    width: 500px;
+    border-radius: 15px;
+    background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
 #gameTitle {
     position: absolute;
     bottom: 165px;
@@ -267,7 +277,7 @@ body {
     line-height: 40px;
     font-family: Tahoma, sans-serif;
     color: white;
-    text-shadow: 1px -1px 13px rgba(0,0,0,0.64);
+    text-shadow: 0px 0px 15px rgba(0,0,0,1);
     font-weight: bold;
 }
 

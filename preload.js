@@ -78,6 +78,7 @@ const renderGamesList = (method, pick) => {
       listElement.appendChild(document.createElement('div')).id = 'gameLink' + game.appid
       const gameLink = document.getElementById('gameLink' + game.appid)
       gameLink.classList.add('gameLink')
+      gameLink.addEventListener('click', () => { renderGameTab(game) })
   
       gameLink.appendChild(document.createElement('div')).id = 'gameLinkIcon' + game.appid
       const gameLinkIcon = document.getElementById('gameLinkIcon' + game.appid)
@@ -92,6 +93,8 @@ const renderGamesList = (method, pick) => {
 
     if (!state.selectedGame.appid && shownGames.length) {
         renderGameTab(shownGames[0])
+        const gameLink = document.getElementById('gameLink' + shownGames[0].appid)
+        gameLink.classList.add('selectedGame')
     }
 
 }
@@ -105,6 +108,10 @@ const setFilterButtons = () => {
 }
 
 const renderGameTab = (game) => {
+
+    state.selectedGame.appid && document.getElementById('gameLink' + state.selectedGame.appid).classList.remove('selectedGame')
+    document.getElementById('gameLink' + game.appid).classList.add('selectedGame')
+
     state.selectedGame = game
     state.tab = 'game'
 
@@ -116,11 +123,21 @@ const renderGameTab = (game) => {
                 state.selectedGameInfo = state.selectedGameInfo[game.appid].data
                 state.selectedGameInfo.appid = game.appid
                 console.log(state.selectedGameInfo)
+                renderGameTab(game)
             }
         }
         http.open('GET', `http://store.steampowered.com/api/appdetails?appids=${game.appid}`, true)
         http.send()
+    } else {
+        const backgroundBlur = document.getElementById('backgroundImage')
+        const gameBanner = document.getElementById('gameBanner')
+        const gameTitle = document.getElementById('gameTitle')
+    
+        backgroundBlur.style.backgroundImage = `url("https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/library_hero.jpg")`
+        gameBanner.style.backgroundImage = `url("https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/library_hero.jpg")`
+        gameTitle.innerText = state.selectedGameInfo.name
     }
+
 }
 
 window.addEventListener('DOMContentLoaded', () => {
