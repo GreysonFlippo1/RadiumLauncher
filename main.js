@@ -1,8 +1,12 @@
 /* eslint-disable multiline-ternary */
 
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Menu, ipcMain } = require('electron')
+const { app, BrowserWindow, Menu } = require('electron')
 const path = require('path')
+const { STEAM_KEY, STEAM_ID } = require('./env')
+
+process.env.STEAM_KEY = STEAM_KEY
+process.env.STEAM_ID = STEAM_ID
 
 const isMac = process.platform === 'darwin'
 

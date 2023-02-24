@@ -5,198 +5,32 @@
   <head>
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; img-src 'self' data:;"> -->
     <title>Radium Launcher</title>
     <link rel="stylesheet" type="text/css" href="./styles.css">
   </head>
   <body>
+    <div id="backgroundImage"></div>
+    <div id="backgroundFilter"></div>
     <div id="appList">
       <input type="text" id="textFilter" placeholder="Search"></input>
       <div id="filterBar">
-        <div class="navItem activeFilter">A</div>
+        <div class="navItem" id="chronological">C</div>
         <div class="navDivider"></div>
-        <div class="navItem">B</div>
+        <div class="navItem" id="alphabetic">A</div>
         <div class="navDivider"></div>
-        <div class="navItem">C</div>
+        <div class="navItem">-</div>
       </div>
-      <div id="scrollableList">
-
-        <div class="listLabel">Recent</div>
-        <div class="listDivider"></div>
-
-        <div class="gameLink selectedGame">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="listLabel">January</div>
-        <div class="listDivider"></div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="listLabel">December - 2021</div>
-        <div class="listDivider"></div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="listLabel">November - 2021</div>
-        <div class="listDivider"></div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="listLabel">October - 2021</div>
-        <div class="listDivider"></div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-        <div class="gameLink">
-          <div class="gameLinkIcon"></div>
-          <div class="gameLinkTitle">Awesome Game Title</div>
-        </div>
-
-      </div>
+      <div id="scrollableList"></div>
     </div>
     <div id="navBar">
       <div class="navItem activeTab">Game</div>
       <div class="navDivider"></div>
-      <div class="navItem">Remote Play</div>
+      <div class="navItem">Details</div>
       <div class="navDivider"></div>
       <div class="navItem">Settings</div>
       <div class="navDivider"></div>
-      <div class="navItem">Account</div>
+      <div class="navItem">Profile</div>
     </div>
     <div id="gameDetails">
       <div id="gameBanner">
@@ -245,11 +79,42 @@
         </div>
 
         <div id="achievementsPane" class="pane">
-          <div class="achievementsTitle">Achievements</div>
+          <div class="achievementsTitle">Achievements - 20 of 20 Completed</div>
           <div class="friendsPaneDivider"></div>
+          <div id="achievementsData">
+            <svg  class="activementProgressContainer" width="200" height="200">
+            <circle
+              class="activementProgressRing"
+              stroke-width="20"
+              fill="transparent"
+              r="90"
+              cx="100"
+              cy="100"></circle>
+            </svg>
+            <div class="achievementsLists">
+              <div class="achievementsList" id="lockedAchievements">
+                <div class="achievementLinkIcon"></div>
+                <div class="achievementLinkIcon"></div>
+                <div class="achievementLinkIcon"></div>
+              </div>
+              <div class="achievementsSubTitle">0 Achievements Left</div>
+              <div class="friendsPaneDivider"></div>
+              <div class="achievementsList" id="unlockedAchievements">
+                <div class="achievementLinkIcon"></div>
+                <div class="achievementLinkIcon"></div>
+                <div class="achievementLinkIcon"></div>
+                <div class="achievementLinkIcon"></div>
+                <div class="achievementLinkIcon"></div>
+                <div class="achievementLinkIcon"></div>
+                <div class="achievementLinkIcon"></div>
+                <div class="achievementLinkIcon"></div>
+                <div class="achievementLinkIcon"></div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div id="gameDetailsPane" class="pane"></div>
+        <!-- <div id="gameDetailsPane" class="pane"></div> -->
       </div>
     </div>
   </body>
