@@ -31,6 +31,10 @@ body {
     padding-right: 5px;
 }
 
+#textFilter:focus, input:focus{
+    outline: none;
+}
+
 #filterBar {
     position: fixed;
     top: 76px;
@@ -64,17 +68,22 @@ body {
 .listLabel {
     color: #fff;
     font-family: Tahoma, sans-serif;
-    margin-top: 15px;
+    margin-top: 25px;
     margin-bottom: 5px;
     width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 14px;
 }
 
 .listDivider {
-    width: 33%;
+    width: 40%;
     height: 1px;
-    background-color: rgba(255,255,255,0.3);
-    border: 1px solid rgba(255,255,255,0.3);
+    /* background-color: rgba(255,255,255,0.3);
+    border: 1px solid rgba(255,255,255,0.3); */
+    min-height: 1px;
     margin-bottom: 5px;
+    background-image: linear-gradient(90deg, rgba(202, 102, 207, 0.8) 0%, rgba(218, 150, 125, 0.8) 100%);
 }
 
 #gameDetails {
@@ -89,8 +98,8 @@ body {
 .gameLink {
     width: 100%;
     min-width: 100%;
-    margin-top: 3px;
-    margin-bottom: 3px;
+    margin-top: 1px;
+    margin-bottom: 1px;
     height: 30px;
     display: flex;
     flex-direction: row;
@@ -164,6 +173,7 @@ body {
 
 .activeFilter {
     color: #fff;
+    background-color: rgba(255,255,255,0.05);
 }
 
 .navItem:hover {
@@ -181,6 +191,7 @@ body {
 
 .activeTab {
     color: #fff;
+    background-color: rgba(255,255,255,0.05);
 }
 
 #backgroundImage {
@@ -449,17 +460,21 @@ input.addEventListener('change', function(e) {
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: start;
+    overflow-y: scroll;
 }
 
-#lockedAchievements {
+#unlockedAchievements {
     margin-top: 0px;
 }
 
 .achievementLinkIcon {
     width: 30px;
     height: 30px;
+    min-width: 30px;
     background-color: #da864e;
     border-radius: 5px;
     margin-bottom: 10px;
     margin-right: 10px;
+    background-size: cover;
+    background-position: 50% 50%;
 }

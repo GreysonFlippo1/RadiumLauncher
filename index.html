@@ -19,7 +19,7 @@
         <div class="navDivider"></div>
         <div class="navItem" id="alphabetic">A</div>
         <div class="navDivider"></div>
-        <div class="navItem">-</div>
+        <div class="navItem" id="filter">F</div>
       </div>
       <div id="scrollableList"></div>
     </div>
@@ -80,7 +80,7 @@
         </div>
 
         <div id="achievementsPane" class="pane">
-          <div class="achievementsTitle">Achievements - 20 of 20 Completed</div>
+          <div class="achievementsTitle" id="achievementsTitle">Achievements - 0 of 0 Completed</div>
           <div class="friendsPaneDivider"></div>
           <div id="achievementsData">
             <svg  class="activementProgressContainer" width="200" height="200">
@@ -93,23 +93,11 @@
               cy="100"></circle>
             </svg>
             <div class="achievementsLists">
-              <div class="achievementsList" id="lockedAchievements">
-                <div class="achievementLinkIcon"></div>
-                <div class="achievementLinkIcon"></div>
-                <div class="achievementLinkIcon"></div>
-              </div>
-              <div class="achievementsSubTitle">0 Achievements Left</div>
-              <div class="friendsPaneDivider"></div>
               <div class="achievementsList" id="unlockedAchievements">
-                <div class="achievementLinkIcon"></div>
-                <div class="achievementLinkIcon"></div>
-                <div class="achievementLinkIcon"></div>
-                <div class="achievementLinkIcon"></div>
-                <div class="achievementLinkIcon"></div>
-                <div class="achievementLinkIcon"></div>
-                <div class="achievementLinkIcon"></div>
-                <div class="achievementLinkIcon"></div>
-                <div class="achievementLinkIcon"></div>
+              </div>
+              <div class="achievementsSubTitle" id="achievementsSubTitle">0 Achievements Left</div>
+              <div class="friendsPaneDivider"></div>
+              <div class="achievementsList" id="lockedAchievements">
               </div>
             </div>
           </div>
