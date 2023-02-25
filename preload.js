@@ -227,6 +227,17 @@ const renderGameTab = (game) => {
         const backgroundBlur = document.getElementById('backgroundImage')
         const gameBanner = document.getElementById('gameBanner')
         const gameTitle = document.getElementById('gameTitle')
+        const playText = document.getElementById('playText')
+        const playIcon = document.getElementById('playIcon')
+        
+        // eslint-disable-next-line eqeqeq
+        if (!state.installedGames.find(g => g == game.appid)) {
+            playText.innerText = 'INSTALL'
+            playIcon.style.display = 'none'
+        } else {
+            playText.innerText = 'PLAY'
+            playIcon.style.display = 'block'
+        }
     
         backgroundBlur.style.backgroundImage = `url("https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/library_hero.jpg")`
         gameBanner.style.backgroundImage = `url("https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/library_hero.jpg")`
