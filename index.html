@@ -84,13 +84,31 @@
           <div class="friendsPaneDivider"></div>
           <div id="achievementsData">
             <svg  class="activementProgressContainer" width="200" height="200">
-            <circle
-              class="activementProgressRing"
-              stroke-width="20"
-              fill="transparent"
-              r="90"
-              cx="100"
-              cy="100"></circle>
+              <defs>
+                <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="rgba(229, 94, 45, 1)"/>
+                <stop offset="100%" stop-color="rgba(201, 54, 209, 1)"/>
+                </linearGradient>
+              </defs>
+              <circle
+                id="activementProgressRing"
+                class="activementProgressRing"
+                stroke-width="30"
+                fill="transparent"
+                stroke="url(#linear)"
+                r="85"
+                cx="100"
+                cy="100">
+              </circle>
+              <circle
+                class="activementProgressRing"
+                stroke-width="30"
+                fill="transparent"
+                stroke="rgba(0,0,0,0.2)"
+                r="85"
+                cx="100"
+                cy="100">
+              </circle>
             </svg>
             <div class="achievementsLists">
               <div class="achievementsList" id="unlockedAchievements">

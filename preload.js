@@ -327,6 +327,21 @@ const renderAchievementsPane = () => {
     const [complete, incomplete] = state.achievementsRatio
     document.getElementById('achievementsTitle').innerText = `Achievements - ${complete} of ${complete + incomplete} Completed`
     document.getElementById('achievementsSubTitle').innerText = `${incomplete} Achievements Left`
+
+    const circle = document.getElementById('activementProgressRing')
+    const radius = circle.r.baseVal.value
+    const circumference = radius * 2 * Math.PI
+
+    circle.style.strokeDasharray = `${circumference} ${circumference}`
+    circle.style.strokeDashoffset = `${circumference}`
+
+    const setProgress = (percent) => {
+        const offset = circumference - percent * circumference
+        circle.style.strokeDashoffset = offset
+    }
+
+    setProgress(complete / (complete + incomplete))
+
 }
 
 window.addEventListener('DOMContentLoaded', () => {

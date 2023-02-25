@@ -403,34 +403,10 @@ body {
 }
 
 .activementProgressRing {
-    transition: 0.35s stroke-dashoffset;
+    transition: stroke-dashoffset 1s ease-in-out;
     transform: rotate(-90deg);
     transform-origin: 50% 50%;
-    stroke: rgba(201, 54, 209, 0.8);
-  }
-
-/* 
-var circle = document.querySelector('circle');
-var radius = circle.r.baseVal.value;
-var circumference = radius * 2 * Math.PI;
-
-circle.style.strokeDasharray = `${circumference} ${circumference}`;
-circle.style.strokeDashoffset = `${circumference}`;
-
-function setProgress(percent) {
-  const offset = circumference - percent / 100 * circumference;
-  circle.style.strokeDashoffset = offset;
 }
-
-const input = document.querySelector('input');
-setProgress(input.value);
-
-input.addEventListener('change', function(e) {
-  if (input.value < 101 && input.value > -1) {
-    setProgress(input.value);
-  }  
-})
-*/
 
 .achievementsSubTitle {
     color: #fff;
