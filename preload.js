@@ -162,6 +162,7 @@ const renderGamesList = (method, pick) => {
       const gameLink = document.getElementById('gameLink' + game.appid)
       gameLink.classList.add('gameLink')
       gameLink.addEventListener('click', () => { renderGameTab(game) })
+
       if (game.appid === state.selectedGame.appid) {
         gameLink.classList.add('selectedGame')
       }
@@ -203,7 +204,7 @@ const setFilterButtons = () => {
 
 const renderGameTab = (game) => {
 
-    state.selectedGame.appid && document.getElementById('gameLink' + state.selectedGame.appid).classList.remove('selectedGame')
+    state.selectedGame.appid && document.getElementById('gameLink' + state.selectedGame.appid)?.classList.remove('selectedGame')
     document.getElementById('gameLink' + game.appid).classList.add('selectedGame')
 
     state.selectedGame = game
