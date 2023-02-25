@@ -3,7 +3,9 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, Menu } = require('electron')
 const path = require('path')
-const { STEAM_KEY, STEAM_ID } = require('./env')
+const { STEAM_KEY, STEAM_ID, STEAM_LIBRARY } = require('./env')
+const fs = require('fs')
+const vdfplus = require('vdfplus')
 
 process.env.STEAM_KEY = STEAM_KEY
 process.env.STEAM_ID = STEAM_ID
@@ -66,6 +68,8 @@ const template = [
   }
 ]
 
+let contents
+
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -75,6 +79,16 @@ const createWindow = () => {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }
+  })
+
+  contents = mainWindow.webContents
+
+  contents.on('did-finish-load', () => {
+    fs.readFile(STEAM_LIBRARY, 'utf8', function (err, data) {
+      if (err) return console.log(err)
+      const json = vdfplus.parse(data)
+      contents.send('steamAppFolders', json)
+    })
   })
 
   const menu = Menu.buildFromTemplate(template)

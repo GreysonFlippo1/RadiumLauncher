@@ -105,7 +105,7 @@ body {
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: start;
-    color: #ccc;
+    color: #fff;
     border-radius: 7px;
 }
 
@@ -118,6 +118,10 @@ body {
     color: #fff;
     cursor: pointer;
     background-color: rgba(0,0,0,0.3);
+}
+
+.notPlayable {
+    color: #888;
 }
 
 .gameLinkIcon {
@@ -403,7 +407,7 @@ body {
 }
 
 .activementProgressRing {
-    transition: stroke-dashoffset 1s ease-in-out;
+    transition: stroke-dashoffset 1s ease;
     transform: rotate(-90deg);
     transform-origin: 50% 50%;
 }

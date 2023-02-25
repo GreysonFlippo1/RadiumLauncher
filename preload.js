@@ -3,11 +3,15 @@
 /* eslint-disable indent */
 // All the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.
+
+// const fs = require('fs')
 const { ipcRenderer } = require('electron')
 
 const { STEAM_KEY, STEAM_ID } = process.env
 
 const state = {
+    libraryfolders: {},
+    installedGames: [],
     games: [],
     sort: 'chronological',
     tab: 'game',
@@ -15,6 +19,18 @@ const state = {
     selectedGameInfo: {},
     achievements: [],
     achievementsRatio: [0, 0] // complete, incomplete
+}
+
+ipcRenderer.on('steamAppFolders', function (event, data) {
+    state.libraryfolders = data.libraryfolders
+    getInstalledGames()
+})
+
+const getInstalledGames = (appid) => {
+    const folders = Object.keys(state.libraryfolders)
+    folders.forEach(folder => {
+        state.installedGames = [...Object.keys(state.libraryfolders[folder].apps)]
+    })
 }
 
 const getGames = () => {
@@ -146,6 +162,14 @@ const renderGamesList = (method, pick) => {
       const gameLink = document.getElementById('gameLink' + game.appid)
       gameLink.classList.add('gameLink')
       gameLink.addEventListener('click', () => { renderGameTab(game) })
+      if (game.appid === state.selectedGame.appid) {
+        gameLink.classList.add('selectedGame')
+      }
+
+      // eslint-disable-next-line eqeqeq
+      if (!state.installedGames.find(g => g == game.appid)) {
+        gameLink.classList.add('notPlayable')
+      }
   
       gameLink.appendChild(document.createElement('div')).id = 'gameLinkIcon' + game.appid
       const gameLinkIcon = document.getElementById('gameLinkIcon' + game.appid)
