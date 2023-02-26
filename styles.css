@@ -336,10 +336,13 @@ body {
     .pane {
         width: 100%;
     }
-  }
+}
+
+.paneTitle {
+    color: #fff;
+}
 
 .friendsTitle {
-    color: #fff;
     font-size: 25px;
     width: calc(100% - 40px);
     height: 80px;
@@ -384,7 +387,6 @@ body {
 }
 
 .achievementsTitle {
-    color: #fff;
     font-size: 25px;
     width: calc(100% - 40px);
     height: 80px;
@@ -413,7 +415,6 @@ body {
 }
 
 .achievementsSubTitle {
-    color: #fff;
     font-size: 25px;
     width: calc(100% - 40px);
     height: 80px;
@@ -458,3 +459,113 @@ body {
     background-size: cover;
     background-position: 50% 50%;
 }
+
+#activementProgressRingBG {
+    stroke: rgba(0,0,0,0.2);
+}
+
+
+@media (prefers-color-scheme: light) {
+    body {
+        background-color: #fff;
+    }
+
+    #appList {
+        border: 1px solid rgba(0,0,0,0.1);
+        background-color: rgba(255,255,255,0.3);
+    }
+
+    #textFilter {
+        border: 1px solid rgba(0,0,0,0.1);
+        background-color: rgba(255,255,255,0.1);
+        color: #000;
+    }
+
+    .listLabel {
+        color: #000;
+    }
+
+    #navBar {
+        border: 1px solid rgba(0,0,0,0.1);
+        background-color: rgba(255,255,255,0.1);
+    }
+
+    .navItem {
+        color: #888;
+        text-shadow: 1px -1px 5px rgba(255,255,255,0.64);
+    }
+
+    .activeFilter {
+        color: #000;
+        background-color: rgba(0,0,0,0.05);
+    }
+    
+    .navItem:hover {
+        cursor: pointer;
+        background-color: rgba(0,0,0,0.1);
+    }
+    
+    .navDivider {
+        background-color: rgba(0,0,0,0.05);
+    }
+    
+    .activeTab {
+        color: #000;
+        background-color: rgba(0,0,0,0.05);
+    }
+
+    #backgroundFilter {
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .pane {
+        background-color: rgba(255,255,255,0.3);
+        border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    #activementProgressRingBG {
+        stroke: rgba(255,255,255,0.5);
+    }
+
+    #filterBar {
+        background-color: rgba(255,255,255,0.1);
+        border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .gameLink {
+        color: #000;
+    }
+    
+    .selectedGame {
+        color: #fff;
+        background-image: linear-gradient(90deg, rgba(201, 54, 209, 0.5) 0%, rgba(229, 94, 45, 0.5) 100%);
+    }
+    
+    .gameLink:hover {
+        /* color: #ccc; */
+        cursor: pointer;
+        background-color: rgba(0,0,0,0.1);
+    }
+    
+    .notPlayable {
+        color: #888;
+    }
+
+    #playButton {
+        background-image: linear-gradient(90deg, rgba(201, 54, 209, 1) 0%, rgba(229, 94, 45, 1) 100%);
+    }
+    
+    #playButton:hover {
+        background-image: linear-gradient(90deg, rgba(201, 54, 209, 0.8) 0%, rgba(229, 94, 45, 0.8) 100%);
+        cursor: pointer;
+        color: #ffffff;
+    }
+
+    .paneTitle {
+        color: #000;
+    }
+    
+}
+
+
+@media (prefers-color-scheme: dark) {}

@@ -47,7 +47,7 @@
       <div id="panes">
 
         <div id="friendsPane" class="pane">
-          <div class="friendsTitle">Friends Who Play</div>
+          <div class="friendsTitle paneTitle">Friends Who Play</div>
           <div class="friendsPaneDivider"></div>
           <div class="friendsList" id="friendsWhoPlayList">
             <div class="friendLinkIcon"></div>
@@ -70,7 +70,7 @@
             <div class="friendLinkIcon"></div>
             <div class="friendLinkIcon"></div>
           </div>
-          <div class="friendsTitle">Active Now</div>
+          <div class="friendsTitle paneTitle">Active Now</div>
           <div class="friendsPaneDivider"></div>
           <div class="friendsList" id="friendsNowPlayingList">
             <div class="friendLinkIcon"></div>
@@ -80,7 +80,7 @@
         </div>
 
         <div id="achievementsPane" class="pane">
-          <div class="achievementsTitle" id="achievementsTitle">Achievements - 0 of 0 Completed</div>
+          <div class="achievementsTitle paneTitle" id="achievementsTitle">Achievements - 0 of 0 Completed</div>
           <div class="friendsPaneDivider"></div>
           <div id="achievementsData">
             <svg  class="activementProgressContainer" width="200" height="200">
@@ -91,6 +91,15 @@
                 </linearGradient>
               </defs>
               <circle
+                class="activementProgressRing"
+                id="activementProgressRingBG"
+                stroke-width="30"
+                fill="transparent"
+                r="85"
+                cx="100"
+                cy="100">
+              </circle>
+              <circle
                 id="activementProgressRing"
                 class="activementProgressRing"
                 stroke-width="30"
@@ -100,20 +109,11 @@
                 cx="100"
                 cy="100">
               </circle>
-              <circle
-                class="activementProgressRing"
-                stroke-width="30"
-                fill="transparent"
-                stroke="rgba(0,0,0,0.2)"
-                r="85"
-                cx="100"
-                cy="100">
-              </circle>
             </svg>
             <div class="achievementsLists">
               <div class="achievementsList" id="unlockedAchievements">
               </div>
-              <div class="achievementsSubTitle" id="achievementsSubTitle">0 Achievements Left</div>
+              <div class="achievementsSubTitle paneTitle" id="achievementsSubTitle">0 Achievements Left</div>
               <div class="friendsPaneDivider"></div>
               <div class="achievementsList" id="lockedAchievements">
               </div>
