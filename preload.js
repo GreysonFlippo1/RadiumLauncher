@@ -28,9 +28,17 @@ ipcRenderer.on('steamAppFolders', function (event, data) {
 
 const getInstalledGames = (appid) => {
     const folders = Object.keys(state.libraryfolders)
+    let foundDirectory = ''
     folders.forEach(folder => {
-        state.installedGames = [...Object.keys(state.libraryfolders[folder].apps)]
+        const appids = Object.keys(state.libraryfolders[folder].apps)
+        state.installedGames = [...appids]
+        if (appid) {
+            if (appids.find(g => g == appid)) {
+                foundDirectory = state.libraryfolders[folder].path
+            }
+        }
     })
+    return foundDirectory
 }
 
 const getGames = () => {
@@ -237,6 +245,7 @@ const renderGameTab = (game) => {
         } else {
             playText.innerText = 'PLAY'
             playIcon.style.display = 'block'
+            document.getElementById('playButton').addEventListener('click', () => { launchGame(game.appid) })
         }
     
         backgroundBlur.style.backgroundImage = `url("https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/library_hero.jpg")`
@@ -247,21 +256,17 @@ const renderGameTab = (game) => {
 
 }
 
-// const renderAchievementsPane = (appid) => {
-//     const http = new XMLHttpRequest()
-//     http.onreadystatechange = function () {
-//         if (this.readyState === 4 && this.status === 200) {
-//             const achievements = JSON.parse(this.response)
-//             state.achievements = achievements.playerstats.achievements
-//             console.log(appid, state.achievements)
-//             console.log(state.selectedGameInfo)
-//             renderAchievementsIcons(appid)
-//         }
-//     }
-//     http.open('GET', `https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/?key=${STEAM_KEY}&steamid=${STEAM_ID}&appid=${appid}`, true)
-//     http.send()
-// }
+const launchGame = (appid) => {
+    (async () => {
+        const foundDirectory = getInstalledGames(appid)
+        // + '/steamapps/common/'
+        console.log(foundDirectory, state)
+        const result = await ipcRenderer.invoke('runApp', [foundDirectory, appid])
+        console.log(result) // prints "foo"
+    })()
+}
 
+// open Library/Application\ Support/Steam/steamapps/common/BloonsTD6/BloonsTD6.app 
 const parseXml = (xml, arrayTags) => {
     let dom = null
     if (window.DOMParser) dom = (new DOMParser()).parseFromString(xml, 'text/xml')

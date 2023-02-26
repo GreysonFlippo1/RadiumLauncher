@@ -1,7 +1,7 @@
 /* eslint-disable multiline-ternary */
 
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Menu } = require('electron')
+const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron')
 const path = require('path')
 const { STEAM_KEY, STEAM_ID, STEAM_LIBRARY } = require('./env')
 const fs = require('fs')
@@ -69,6 +69,26 @@ const template = [
 ]
 
 let contents
+
+// const runApp = (path, appName) => {
+//   // shell.openPath(path.join('/Users/greysonflippo/Library/Application Support/Steam/steamapps/common/BloonsTD6', 'BloonsTD6.app'))
+//   shell.openPath(path.join(path, appName))
+// }
+
+ipcMain.handle('runApp', async (event, arg) => {
+  // + '/steamapps/common/'
+  // do stuff
+  // await awaitableProcess();
+  fs.readFile(arg[0] + `/steamapps/appmanifest_${arg[1]}.acf`, 'utf8', function (err, data) {
+    if (err) return err
+    const json = vdfplus.parse(data)
+    const installdir = json.AppState.installdir
+    const fullPath = arg[0] + '/steamapps/common/' + installdir
+    const appName = installdir + '.app'
+    shell.openPath(path.join(fullPath, appName))
+    return true
+  })
+})
 
 const createWindow = () => {
   // Create the browser window.
