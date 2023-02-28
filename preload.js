@@ -33,6 +33,7 @@ const getInstalledGames = (appid) => {
         const appids = Object.keys(state.libraryfolders[folder].apps)
         state.installedGames = [...appids]
         if (appid) {
+            // eslint-disable-next-line eqeqeq
             if (appids.find(g => g == appid)) {
                 foundDirectory = state.libraryfolders[folder].path
             }
@@ -41,17 +42,24 @@ const getInstalledGames = (appid) => {
     return foundDirectory
 }
 
+const makeRequest = (action, url, after) => {
+    const http = new XMLHttpRequest()
+    http.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            after(this.response)
+        }
+    }
+    http.open(action, url, true)
+    http.send()
+}
+
 const getGames = () => {
-  const http = new XMLHttpRequest()
-  http.onreadystatechange = function () {
-    if (this.readyState === 4 && this.status === 200) {
-        const games = JSON.parse(this.response)
+    const url = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=${STEAM_KEY}&steamid=${STEAM_ID}&format=json&include_appinfo=1&include_played_free_games=1`
+    makeRequest('GET', url, (game) => {
+        const games = JSON.parse(game)
         state.games = games.response.games
         renderGamesList('sort', state.sort)
-    }
-  }
-  http.open('GET', `https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=${STEAM_KEY}&steamid=${STEAM_ID}&format=json&include_appinfo=1&include_played_free_games=1`, true)
-  http.send()
+    })
 }
 
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -219,18 +227,13 @@ const renderGameTab = (game) => {
     state.tab = 'game'
 
     if (!state.selectedGameInfo.appid || state.selectedGameInfo.appid !== state.selectedGame.appid) {
-        const http = new XMLHttpRequest()
-        http.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                state.selectedGameInfo = JSON.parse(this.response)
-                state.selectedGameInfo = state.selectedGameInfo[game.appid].data
-                state.selectedGameInfo.appid = game.appid
-                renderGameTab(game)
-                getAchievements(game.appid)
-            }
-        }
-        http.open('GET', `http://store.steampowered.com/api/appdetails?appids=${game.appid}`, true)
-        http.send()
+        const url = `http://store.steampowered.com/api/appdetails?appids=${game.appid}`
+        makeRequest('GET', url, (selectedGameInfo) => {
+            state.selectedGameInfo = JSON.parse(selectedGameInfo)
+            state.selectedGameInfo = { ...state.selectedGame, ...state.selectedGameInfo[game.appid].data }
+            renderGameTab(game)
+            getAchievements(game.appid)
+        })
     } else {
         const backgroundBlur = document.getElementById('backgroundImage')
         const gameBanner = document.getElementById('gameBanner')
@@ -307,19 +310,14 @@ const parseXml = (xml, arrayTags) => {
 }
 
 const getAchievements = (appid) => {
-    const http = new XMLHttpRequest()
-    http.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            const achievements = parseXml(this.response)
-            state.achievements = achievements.playerstats?.achievements.achievement ?? []
-            renderAchievementsPane()
-        }
-    }
+    const url = `http://steamcommunity.com/profiles/${STEAM_ID}/stats/${appid}/achievements/?xml=1`
+    makeRequest('GET', url, (achievementsResponse) => {
+        const achievements = parseXml(achievementsResponse)
+        state.achievements = achievements.playerstats?.achievements.achievement ?? []
+        renderAchievementsPane()
+    })
     // for rare achievement marker http.open('GET', `https://api.steampowered.com/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v2/?gameid=${appid}`, true)
     // for basic achievements data (no icons) http.open('GET', `https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/?key=${STEAM_KEY}&steamid=${STEAM_ID}&appid=${appid}`, true)
-
-    http.open('GET', `http://steamcommunity.com/profiles/${STEAM_ID}/stats/${appid}/achievements/?xml=1`, true)
-    http.send()
 }
 
 const renderAchievementsPane = () => {
