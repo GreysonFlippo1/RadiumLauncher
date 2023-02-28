@@ -310,19 +310,34 @@ const parseXml = (xml, arrayTags) => {
 }
 
 const getAchievements = (appid) => {
-    const url = `http://steamcommunity.com/profiles/${STEAM_ID}/stats/${appid}/achievements/?xml=1`
+    const url = `https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/?key=${STEAM_KEY}&steamid=${STEAM_ID}&appid=${appid}`
     makeRequest('GET', url, (achievementsResponse) => {
-        const achievements = parseXml(achievementsResponse)
-        state.achievements = achievements.playerstats?.achievements.achievement ?? []
+        const achievements = JSON.parse(achievementsResponse)
+        state.achievements = achievements.playerstats?.achievements ?? []
+        getAchievementsInfo()
+    })
+}
+
+const getAchievementsInfo = () => {
+    // http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=XXXXXXXXXXXXXXXXXXXXXXX&steamids=76561197960435530
+    // http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX&steamid=76561197960435530&relationship=friend
+    // https://api.steampowered.com/IPlayerService/GetFriendsGameplayInfo/v1/
+    // https://api.steampowered.com/IPlayerService/IsPlayingSharedGame/v1/
+    // const url = `https://api.steampowered.com/IPlayerService/GetFriendsGameplayInfo/v1/?key=${STEAM_KEY}&appid=${state.selectedGame.appid}`
+    // http://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v0002/?key=YOURKEY&appid=APPID&l=english&format=json
+    const url = `http://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v0002/?key=${STEAM_KEY}&appid=${state.selectedGame.appid}&l=english&format=json`
+    makeRequest('GET', url, (achievementsResponse) => {
+        achievementsResponse = JSON.parse(achievementsResponse)
+        const achievementsInfo = achievementsResponse.game.availableGameStats.achievements
+        state.achievements.forEach((achievement, i) => {
+            state.achievements[i] = { ...achievement, ...achievementsInfo[i] }
+        })
         renderAchievementsPane()
     })
-    // for rare achievement marker http.open('GET', `https://api.steampowered.com/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v2/?gameid=${appid}`, true)
-    // for basic achievements data (no icons) http.open('GET', `https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/?key=${STEAM_KEY}&steamid=${STEAM_ID}&appid=${appid}`, true)
 }
 
 const renderAchievementsPane = () => {
     let shownAchievements = state.achievements
-
     const unlockedAchievementsList = document.getElementById('unlockedAchievements')
     const lockedAchievementsList = document.getElementById('lockedAchievements')
 
@@ -339,26 +354,26 @@ const renderAchievementsPane = () => {
     }
 
     shownAchievements = shownAchievements.sort((a, b) => {
-        if (a.unlockTimestamp?.['#cdata-section'] < b.unlockTimestamp?.['#cdata-section']) {
+        if (a.unlocktime < b.unlocktime) {
             return 1
         }
-        if (a.unlockTimestamp?.['#cdata-section'] > b.unlockTimestamp?.['#cdata-section']) {
+        if (a.unlocktime > b.unlocktime) {
             return -1
         }
         return 0
     })
 
     shownAchievements.forEach(achievement => {
-        const achievementListElement = achievement.unlockTimestamp ? unlockedAchievementsList : lockedAchievementsList
+        const achievementListElement = achievement.achieved ? unlockedAchievementsList : lockedAchievementsList
 
-        state.achievementsRatio[achievement.unlockTimestamp ? 0 : 1] += 1
+        state.achievementsRatio[achievement.achieved ? 0 : 1] += 1
 
         // eslint-disable-next-line eqeqeq
-        const achievementIcon = (achievement.closed == 1 && !achievement.unlockTimestamp) ? achievement.iconOpen['#cdata-section'] : achievement.iconClosed['#cdata-section']
+        const achievementIcon = achievement.icon
 
-        achievementListElement.appendChild(document.createElement('div')).id = 'achivementIcon_' + achievement.apiname['#cdata-section']
+        achievementListElement.appendChild(document.createElement('div')).id = 'achivementIcon_' + achievement.name
 
-        const achivementIconElement = document.getElementById('achivementIcon_' + achievement.apiname['#cdata-section'])
+        const achivementIconElement = document.getElementById('achivementIcon_' + achievement.name)
         achivementIconElement.style.backgroundImage = `url('${achievementIcon}')`
         achivementIconElement.classList.add('achievementLinkIcon')
     })
