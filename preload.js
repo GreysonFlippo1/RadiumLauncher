@@ -269,46 +269,6 @@ const launchGame = (appid) => {
     })()
 }
 
-// open Library/Application\ Support/Steam/steamapps/common/BloonsTD6/BloonsTD6.app 
-const parseXml = (xml, arrayTags) => {
-    let dom = null
-    if (window.DOMParser) dom = (new DOMParser()).parseFromString(xml, 'text/xml')
-    else if (window.ActiveXObject) {
-        // eslint-disable-next-line no-undef
-        dom = new ActiveXObject('Microsoft.XMLDOM')
-        dom.async = false
-        // eslint-disable-next-line no-throw-literal
-        if (!dom.loadXML(xml)) throw dom.parseError.reason + ' ' + dom.parseError.srcText
-    } else throw new Error('cannot parse xml string!')
-
-    function parseNode (xmlNode, result) {
-        if (xmlNode.nodeName === '#cdata-section' || xmlNode.nodeName === '#text') {
-            const v = xmlNode.nodeValue
-            if (v.trim()) result['#cdata-section'] = v
-            return
-        }
-
-        const jsonNode = {}
-            const existing = result[xmlNode.nodeName]
-        if (existing) {
-            if (!Array.isArray(existing)) result[xmlNode.nodeName] = [existing, jsonNode]
-            else result[xmlNode.nodeName].push(jsonNode)
-        } else {
-            if (arrayTags && arrayTags.indexOf(xmlNode.nodeName) !== -1) result[xmlNode.nodeName] = [jsonNode]
-            else result[xmlNode.nodeName] = jsonNode
-        }
-
-        if (xmlNode.attributes) for (const attribute of xmlNode.attributes) jsonNode[attribute.nodeName] = attribute.nodeValue
-
-        for (const node of xmlNode.childNodes) parseNode(node, jsonNode)
-    }
-
-    const result = {}
-    for (const node of dom.childNodes) parseNode(node, result)
-
-    return result
-}
-
 const getAchievements = (appid) => {
     const url = `https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/?key=${STEAM_KEY}&steamid=${STEAM_ID}&appid=${appid}`
     makeRequest('GET', url, (achievementsResponse) => {
