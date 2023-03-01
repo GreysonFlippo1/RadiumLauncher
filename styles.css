@@ -356,6 +356,7 @@ body {
     height: 50px;
     line-height: 50px;
     padding-left: 40px;
+    margin-top: 10px;
 }
 
 .friendsPaneDivider {
@@ -378,9 +379,9 @@ body {
     flex-direction: row;
     justify-content: start;
     overflow-x: scroll;
+    overflow-y: visible;
     /* background-color: rgba(100,100,100,0.1); */
     /* border: 1px solid rgba(0,0,0,0.1); */
-    padding: 5px;
     border-radius: 10px;
     color: #ccc;
 }
@@ -390,9 +391,9 @@ body {
 }
 
 .firendsLink {
-    height: 30px;
-    width: auto;
-    padding: 5px;
+    height: 40px;
+    width: 40px;
+    padding: 0px;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -400,18 +401,26 @@ body {
 }
 
 .firendsLink:hover {
-    background-color: rgba(0,0,0,0.3);
     cursor: pointer;
 }
 
 .firendsLink:hover .friendLinkName {
+    background-color: rgba(41, 41, 41, 1);
     width: auto;
     min-width: 100px;
     max-width: 200px;
-    padding-left: 10px;
+    padding-left: 50px;
     padding-right: 10px;
     opacity: 1;
     transition: all .3s;
+    position: absolute;
+    z-index: 2;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.firendsLink:hover .friendLinkIcon {
+    position: absolute;
+    z-index: 3;
 }
 
 .friendLinkIcon {
@@ -420,19 +429,24 @@ body {
     min-width: 30px;
     background-color: #da864e;
     border-radius: 5px;
-    margin: 0px;
+    margin: 5px;
+    background-size: cover;
+    background-position: 50% 50%;
 }
 
 .friendLinkName {
     width: auto;
+    width: auto;
     max-width: 0px;
     font-size: 15px;
-    line-height: 30px;
+    line-height: 38px;
     overflow: hidden;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     opacity: 0;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0);
 }
 
 .achievementsTitle {
@@ -471,6 +485,7 @@ body {
     height: 50px;
     line-height: 50px;
     padding-left: 40px;
+    margin-top: 10px;
 }
 
 #achievementsCompleted {
@@ -484,6 +499,7 @@ body {
 
 .achievementsList {
     width: calc(100% - 50px);
+    margin-right: 20px;
     margin-left: 40px;
     margin-top: 10px;
     max-height: 80px;
@@ -493,14 +509,48 @@ body {
     flex-direction: row;
     justify-content: start;
     overflow-x: scroll;
+    overflow-y: visible;
     /* background-color: rgba(100,100,100,0.1); */
     /* border: 1px solid rgba(0,0,0,0.1); */
-    padding: 5px;
     border-radius: 10px;
+    color: #ccc;
 }
 
 #unlockedAchievements {
     margin-top: 0px;
+}
+
+.achievementLink {
+    height: 40px;
+    width: 40px;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    border-radius: 10px;
+}
+
+.achievementLink:hover {
+    cursor: pointer;
+}
+
+.achievementLink:hover .achievementLinkName {
+    background-color: rgba(41, 41, 41, 1);
+    width: auto;
+    min-width: 100px;
+    max-width: 200px;
+    padding-left: 50px;
+    padding-right: 10px;
+    opacity: 1;
+    transition: all .3s;
+    position: absolute;
+    z-index: 2;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.achievementLink:hover .achievementLinkIcon {
+    position: absolute;
+    z-index: 3;
 }
 
 .achievementLinkIcon {
@@ -512,6 +562,20 @@ body {
     margin: 5px;
     background-size: cover;
     background-position: 50% 50%;
+}
+
+.achievementLinkName {
+    width: auto;
+    max-width: 0px;
+    font-size: 15px;
+    line-height: 38px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 0;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0);
 }
 
 #activementProgressRingBG {
@@ -628,8 +692,18 @@ body {
         color: #666;
     }
 
-    .firendsLink:hover {
-        background-color: rgba(0,0,0,0.1);
+    .firendsLink:hover .friendLinkName {
+        background-color: rgba(225, 225, 225, 1);
+        border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .achievementsList {
+        color: #666;
+    }
+
+    .achievementLink:hover .achievementLinkName {
+        background-color: rgba(225, 225, 225, 1);
+        border: 1px solid rgba(0,0,0,0.1);
     }
     
 }

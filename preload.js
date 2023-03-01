@@ -397,11 +397,20 @@ const renderAchievementsPane = () => {
         // eslint-disable-next-line eqeqeq
         const achievementIcon = achievement.icon
 
-        achievementListElement.appendChild(document.createElement('div')).id = 'achivementIcon_' + achievement.name
+        achievementListElement.appendChild(document.createElement('div')).id = 'achivementLink_' + achievement.name
+
+        const achivementLinkElement = document.getElementById('achivementLink_' + achievement.name)
+        achivementLinkElement.appendChild(document.createElement('div')).id = 'achivementIcon_' + achievement.name
+        achivementLinkElement.appendChild(document.createElement('div')).id = 'achivementName_' + achievement.name
+        achivementLinkElement.classList.add('achievementLink')
 
         const achivementIconElement = document.getElementById('achivementIcon_' + achievement.name)
         achivementIconElement.style.backgroundImage = `url('${achievementIcon}')`
         achivementIconElement.classList.add('achievementLinkIcon')
+
+        const achivementNameElement = document.getElementById('achivementName_' + achievement.name)
+        achivementNameElement.innerText = achievement.displayName
+        achivementNameElement.classList.add('achievementLinkName')
     })
 
     const [complete, incomplete] = state.achievementsRatio
