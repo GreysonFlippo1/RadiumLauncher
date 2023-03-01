@@ -18,7 +18,8 @@ const state = {
     selectedGame: {},
     selectedGameInfo: {},
     achievements: [],
-    achievementsRatio: [0, 0] // complete, incomplete
+    achievementsRatio: [0, 0], // complete, incomplete
+    friends: []
 }
 
 ipcRenderer.on('steamAppFolders', function (event, data) {
@@ -255,19 +256,54 @@ const renderGameTab = (game) => {
         gameBanner.style.backgroundImage = `url("https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/library_hero.jpg")`
         gameTitle.innerText = state.selectedGameInfo.name
         getAchievements(game.appid)
+        getFriends(game.appid)
     }
 
 }
 
-const launchGame = (appid) => {
+const launchGame = (appid, args = '') => {
     (async () => {
-        const foundDirectory = getInstalledGames(appid)
+        // const foundDirectory = getInstalledGames(appid)
         // + '/steamapps/common/'
-        console.log(foundDirectory, state)
-        const result = await ipcRenderer.invoke('runApp', [foundDirectory, appid])
-        console.log(result) // prints "foo"
+        // console.log(foundDirectory, state)
+        // const result = await ipcRenderer.invoke('runApp', [foundDirectory, appid])
+        // console.log(result)
+
+        // basically the same as before - requires steamapp to be running to launch game
+        window.location.href = `steam://run/${appid}/${args}`
+        // steam://run/${appid}/${args}
     })()
 }
+
+const getFriends = (appid) => {
+    // const url = `https://api.steampowered.com/IPlayerService/GetFriendsGameplayInfo/v1/?key=${STEAM_KEY}&appid=${state.selectedGame.appid}`
+    const url = `https://api.steampowered.com/ISteamUser/GetFriendList/v1/?key=${STEAM_KEY}&steamid=${STEAM_ID}`
+    makeRequest('GET', url, (res) => {
+        const response = JSON.parse(res)
+        state.friends = response.friendslist.friends
+        getFriendsInfo()
+    })
+}
+
+const getFriendsInfo = () => {
+    let friendsList = ''
+    state.friends.forEach((friend, i) => {
+        friendsList += friend.steamid
+        if (i < state.friends.length - 1) {
+            friendsList += '%2C'
+        }
+    })
+    const url = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${STEAM_KEY}&steamids=${friendsList}`
+    makeRequest('GET', url, (res) => {
+        const response = JSON.parse(res)
+        // only loses friends_sice property
+        state.friends = response.response.players
+        console.log(state.friends)
+    })
+}
+
+//https://partner.steam-api.com/ISteamUser/CheckAppOwnership/v2/ key, steamid, appid
+//https://partner.steam-api.com/ISteamUser/GetPlayerSummaries/v2/ key, steamids (%C or comma seperated)
 
 const getAchievements = (appid) => {
     const url = `https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/?key=${STEAM_KEY}&steamid=${STEAM_ID}&appid=${appid}`
@@ -279,12 +315,6 @@ const getAchievements = (appid) => {
 }
 
 const getAchievementsInfo = () => {
-    // http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=XXXXXXXXXXXXXXXXXXXXXXX&steamids=76561197960435530
-    // http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX&steamid=76561197960435530&relationship=friend
-    // https://api.steampowered.com/IPlayerService/GetFriendsGameplayInfo/v1/
-    // https://api.steampowered.com/IPlayerService/IsPlayingSharedGame/v1/
-    // const url = `https://api.steampowered.com/IPlayerService/GetFriendsGameplayInfo/v1/?key=${STEAM_KEY}&appid=${state.selectedGame.appid}`
-    // http://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v0002/?key=YOURKEY&appid=APPID&l=english&format=json
     const url = `http://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v0002/?key=${STEAM_KEY}&appid=${state.selectedGame.appid}&l=english&format=json`
     makeRequest('GET', url, (achievementsResponse) => {
         achievementsResponse = JSON.parse(achievementsResponse)

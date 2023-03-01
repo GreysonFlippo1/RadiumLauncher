@@ -350,6 +350,14 @@ body {
     padding-left: 40px;
 }
 
+.friendsSubTitle {
+    font-size: 20px;
+    width: calc(100% - 40px);
+    height: 50px;
+    line-height: 50px;
+    padding-left: 40px;
+}
+
 .friendsPaneDivider {
     width: 250px;
     height: 1px;
@@ -360,21 +368,24 @@ body {
 }
 
 .friendsList {
-    width: calc(100% - 70px);
+    margin-right: 20px;
     margin-left: 40px;
-    margin-top: 30px;
+    margin-top: 10px;
+    max-height: 80px;
+    height: 80px;
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
+    flex-direction: row;
     justify-content: start;
-    max-height: 70px;
-    height: 70px;
-    overflow: hidden;
+    overflow-x: scroll;
+    /* background-color: rgba(100,100,100,0.1); */
+    /* border: 1px solid rgba(0,0,0,0.1); */
+    padding: 5px;
+    border-radius: 10px;
 }
 
-#friendsNowPlayingList {
-    max-height: 40px;
-    height: 40px;
+#friendsWhoPlayList {
+    margin-top: 20px;
 }
 
 .friendLinkIcon {
@@ -382,8 +393,8 @@ body {
     height: 30px;
     background-color: #da864e;
     border-radius: 5px;
-    margin-bottom: 10px;
-    margin-right: 10px;
+    margin-bottom: 5px;
+    margin-right: 5px;
 }
 
 .achievementsTitle {
@@ -396,7 +407,7 @@ body {
 
 #achievementsData {
     /* border: 1px solid green; */
-    padding: 40px;
+    padding: 20px;
     display: flex;
     flex-direction: row;
     justify-content: start;
@@ -406,6 +417,7 @@ body {
     /* border: 1px solid red; */
     height: 200px;
     width: 200px;
+    margin: 20px;
 }
 
 .activementProgressRing {
@@ -415,10 +427,10 @@ body {
 }
 
 .achievementsSubTitle {
-    font-size: 25px;
+    font-size: 20px;
     width: calc(100% - 40px);
-    height: 80px;
-    line-height: 80px;
+    height: 50px;
+    line-height: 50px;
     padding-left: 40px;
 }
 
@@ -432,16 +444,20 @@ body {
 }
 
 .achievementsList {
-    width: 100%;
+    width: calc(100% - 40px);
     margin-left: 40px;
-    margin-top: 30px;
-    max-height: 40px;
-    height: 40px;
+    margin-top: 10px;
+    max-height: 80px;
+    height: 80px;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
-    flex-wrap: nowrap;
     justify-content: start;
-    overflow-y: scroll;
+    overflow-x: scroll;
+    /* background-color: rgba(100,100,100,0.1); */
+    /* border: 1px solid rgba(0,0,0,0.1); */
+    padding: 5px;
+    border-radius: 10px;
 }
 
 #unlockedAchievements {
@@ -454,8 +470,7 @@ body {
     min-width: 30px;
     background-color: #da864e;
     border-radius: 5px;
-    margin-bottom: 10px;
-    margin-right: 10px;
+    margin: 5px;
     background-size: cover;
     background-position: 50% 50%;
 }
