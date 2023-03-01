@@ -382,18 +382,57 @@ body {
     /* border: 1px solid rgba(0,0,0,0.1); */
     padding: 5px;
     border-radius: 10px;
+    color: #ccc;
 }
 
 #friendsWhoPlayList {
     margin-top: 20px;
 }
 
+.firendsLink {
+    height: 30px;
+    width: auto;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    border-radius: 10px;
+}
+
+.firendsLink:hover {
+    background-color: rgba(0,0,0,0.3);
+    cursor: pointer;
+}
+
+.firendsLink:hover .friendLinkName {
+    width: auto;
+    min-width: 100px;
+    max-width: 200px;
+    padding-left: 10px;
+    padding-right: 10px;
+    opacity: 1;
+    transition: all .3s;
+}
+
 .friendLinkIcon {
     width: 30px;
     height: 30px;
+    min-width: 30px;
     background-color: #da864e;
     border-radius: 5px;
-    margin: 5px;
+    margin: 0px;
+}
+
+.friendLinkName {
+    width: auto;
+    max-width: 0px;
+    font-size: 15px;
+    line-height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 0;
 }
 
 .achievementsTitle {
@@ -583,6 +622,14 @@ body {
 
     .paneTitle {
         color: #000;
+    }
+
+    .friendsList {
+        color: #666;
+    }
+
+    .firendsLink:hover {
+        background-color: rgba(0,0,0,0.1);
     }
     
 }

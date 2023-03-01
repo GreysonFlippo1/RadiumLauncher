@@ -297,22 +297,49 @@ const getFriendsInfo = () => {
         const response = JSON.parse(res)
         // only loses friends_sice property
         state.friends = response.response.players
-        console.log(state.friends)
-        getFriendsWhoPlay()
+        RenderFriendsPane()
     })
 }
 
-const getFriendsWhoPlay = () => {
-    const url = `https://api.steampowered.com/IPlayerService/GetFriendsGameplayInfo/v1/?key=${STEAM_KEY}&appid=${state.selectedGame.appid}`
-    makeRequest('GET', url, (res) => {
-        const response = JSON.parse(res)
-        console.log(response)
-    })
-}
+const RenderFriendsPane = () => {
+    const allFriends = document.getElementById('friendsWhoPlayList')
+    const friendsPlayingNow = document.getElementById('friendsNowPlayingList')
 
-//https://api.steampowered.com/IPlayerService/IsPlayingSharedGame/v1/ //obsolete
-//https://partner.steam-api.com/ISteamUser/CheckAppOwnership/v2/ key, steamid, appid
-//https://partner.steam-api.com/ISteamUser/GetPlayerSummaries/v2/ key, steamids (%C or comma seperated)
+    allFriends.innerHTML = ''
+    friendsPlayingNow.innerHTML = ''
+
+    document.getElementById('friendsSubTitle').innerText = `Friends Playing ${state.selectedGameInfo.name}`
+
+    state.friends.filter(friend => friend.gameid).forEach(friend => {
+
+        // eslint-disable-next-line eqeqeq
+        const friendsListElement = friend.gameid == state.selectedGame.appid ? friendsPlayingNow : allFriends
+        const friendIcon = friend.avatar
+
+        friendsListElement.appendChild(document.createElement('div')).id = 'friendLink' + friend.steamid
+
+        const friendLinkElement = document.getElementById('friendLink' + friend.steamid)
+        friendLinkElement.appendChild(document.createElement('div')).id = 'friendIcon_' + friend.steamid
+        friendLinkElement.appendChild(document.createElement('div')).id = 'friendName_' + friend.steamid
+        friendLinkElement.classList.add('firendsLink')
+
+        const friendIconElement = document.getElementById('friendIcon_' + friend.steamid)
+        friendIconElement.style.backgroundImage = `url('${friendIcon}')`
+        friendIconElement.classList.add('friendLinkIcon')
+
+        const friendNameElement = document.getElementById('friendName_' + friend.steamid)
+        friendNameElement.innerText = friend.personaname
+        friendNameElement.classList.add('friendLinkName')
+    })
+
+    if (!allFriends.innerHTML) {
+        allFriends.innerText = 'No Friends Online'
+    }
+    if (!friendsPlayingNow.innerHTML) {
+        friendsPlayingNow.innerText = 'No Friends Playing This Game'
+    }
+
+}
 
 const getAchievements = (appid) => {
     const url = `https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/?key=${STEAM_KEY}&steamid=${STEAM_ID}&appid=${appid}`
