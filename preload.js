@@ -256,7 +256,7 @@ const renderGameTab = (game) => {
         gameBanner.style.backgroundImage = `url("https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/library_hero.jpg")`
         gameTitle.innerText = state.selectedGameInfo.name
         getAchievements(game.appid)
-        getFriends(game.appid)
+        getFriends()
     }
 
 }
@@ -275,8 +275,7 @@ const launchGame = (appid, args = '') => {
     })()
 }
 
-const getFriends = (appid) => {
-    // const url = `https://api.steampowered.com/IPlayerService/GetFriendsGameplayInfo/v1/?key=${STEAM_KEY}&appid=${state.selectedGame.appid}`
+const getFriends = () => {
     const url = `https://api.steampowered.com/ISteamUser/GetFriendList/v1/?key=${STEAM_KEY}&steamid=${STEAM_ID}`
     makeRequest('GET', url, (res) => {
         const response = JSON.parse(res)
@@ -299,9 +298,19 @@ const getFriendsInfo = () => {
         // only loses friends_sice property
         state.friends = response.response.players
         console.log(state.friends)
+        getFriendsWhoPlay()
     })
 }
 
+const getFriendsWhoPlay = () => {
+    const url = `https://api.steampowered.com/IPlayerService/GetFriendsGameplayInfo/v1/?key=${STEAM_KEY}&appid=${state.selectedGame.appid}`
+    makeRequest('GET', url, (res) => {
+        const response = JSON.parse(res)
+        console.log(response)
+    })
+}
+
+//https://api.steampowered.com/IPlayerService/IsPlayingSharedGame/v1/ //obsolete
 //https://partner.steam-api.com/ISteamUser/CheckAppOwnership/v2/ key, steamid, appid
 //https://partner.steam-api.com/ISteamUser/GetPlayerSummaries/v2/ key, steamids (%C or comma seperated)
 

@@ -393,8 +393,7 @@ body {
     height: 30px;
     background-color: #da864e;
     border-radius: 5px;
-    margin-bottom: 5px;
-    margin-right: 5px;
+    margin: 5px;
 }
 
 .achievementsTitle {
@@ -418,6 +417,7 @@ body {
     height: 200px;
     width: 200px;
     margin: 20px;
+    margin-left: 40px;
 }
 
 .activementProgressRing {
@@ -440,11 +440,11 @@ body {
 }
 
 .achievementsLists {
-    width: calc(100% - 240px);
+    width: calc(100% - 250px);
 }
 
 .achievementsList {
-    width: calc(100% - 40px);
+    width: calc(100% - 50px);
     margin-left: 40px;
     margin-top: 10px;
     max-height: 80px;
