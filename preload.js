@@ -310,7 +310,20 @@ const RenderFriendsPane = () => {
 
     document.getElementById('friendsSubTitle').innerText = `Friends Playing ${state.selectedGameInfo.name}`
 
-    state.friends.filter(friend => friend.gameid).forEach(friend => {
+    const onlineFriends = state.friends.filter(friend => friend.gameid)
+    const offlineFriends = state.friends.filter(friend => !friend.gameid).sort((a, b) => {
+        if (a.lastlogoff < b.lastlogoff) {
+            return 1
+        }
+        if (a.lastlogoff > b.lastlogoff) {
+            return -1
+        }
+        return 0
+    })
+
+    const sortedFriends = [...onlineFriends, ...offlineFriends]
+
+    sortedFriends.forEach(friend => {
 
         // eslint-disable-next-line eqeqeq
         const friendsListElement = friend.gameid == state.selectedGame.appid ? friendsPlayingNow : allFriends
@@ -326,6 +339,7 @@ const RenderFriendsPane = () => {
         const friendIconElement = document.getElementById('friendIcon_' + friend.steamid)
         friendIconElement.style.backgroundImage = `url('${friendIcon}')`
         friendIconElement.classList.add('friendLinkIcon')
+        if (!friend.gameid) friendIconElement.classList.add('offline')
 
         const friendNameElement = document.getElementById('friendName_' + friend.steamid)
         friendNameElement.innerText = friend.personaname

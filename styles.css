@@ -378,7 +378,7 @@ body {
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: start;
-    overflow-x: scroll;
+    overflow-x: hidden;
     overflow-y: visible;
     /* background-color: rgba(100,100,100,0.1); */
     /* border: 1px solid rgba(0,0,0,0.1); */
@@ -421,17 +421,30 @@ body {
 .firendsLink:hover .friendLinkIcon {
     position: absolute;
     z-index: 3;
+    filter: brightness(100%) saturate(100%);
+    opacity: 1;
 }
 
 .friendLinkIcon {
-    width: 30px;
-    height: 30px;
-    min-width: 30px;
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
     background-color: #da864e;
     border-radius: 5px;
     margin: 5px;
     background-size: cover;
     background-position: 50% 50%;
+    border: 2px solid rgba(201, 54, 209, 0.9);
+    opacity: 1;
+}
+
+.offline {
+    filter: brightness(50%) saturate(30%);
+    border: 0px solid rgba(201, 54, 209, 0);
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    opacity: 0.7;
 }
 
 .friendLinkName {
@@ -508,7 +521,7 @@ body {
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: start;
-    overflow-x: scroll;
+    overflow-x: hidden;
     overflow-y: visible;
     /* background-color: rgba(100,100,100,0.1); */
     /* border: 1px solid rgba(0,0,0,0.1); */
@@ -693,7 +706,7 @@ body {
     }
 
     .firendsLink:hover .friendLinkName {
-        background-color: rgba(225, 225, 225, 1);
+        background-color: rgba(255, 255, 255, 1);
         border: 1px solid rgba(0,0,0,0.1);
     }
 
@@ -702,7 +715,7 @@ body {
     }
 
     .achievementLink:hover .achievementLinkName {
-        background-color: rgba(225, 225, 225, 1);
+        background-color: rgba(255, 255, 255, 1);
         border: 1px solid rgba(0,0,0,0.1);
     }
     
