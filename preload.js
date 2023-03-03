@@ -370,7 +370,8 @@ const getAchievementsInfo = () => {
         achievementsResponse = JSON.parse(achievementsResponse)
         const achievementsInfo = achievementsResponse.game.availableGameStats.achievements
         state.achievements.forEach((achievement, i) => {
-            state.achievements[i] = { ...achievement, ...achievementsInfo[i] }
+            const achievementInfo = achievementsInfo.find(a => a.name === achievement.apiname) ?? {}
+            state.achievements[i] = { ...achievement, ...achievementInfo }
         })
         renderAchievementsPane()
     })
