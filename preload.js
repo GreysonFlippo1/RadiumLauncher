@@ -432,7 +432,7 @@ const renderAchievementsPane = () => {
     document.getElementById('achievementsTitle').innerText = `Achievements - ${complete} of ${complete + incomplete} Completed`
     document.getElementById('achievementsSubTitle').innerText = `${incomplete} Achievements Left`
 
-    const circle = document.getElementById('activementProgressRing')
+    const circle = document.getElementById('achievementProgressRing')
     const radius = circle.r.baseVal.value
     const circumference = radius * 2 * Math.PI
 

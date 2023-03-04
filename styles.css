@@ -478,7 +478,7 @@ body {
     justify-content: start;
 }
 
-.activementProgressContainer {
+.achievementProgressContainer {
     /* border: 1px solid red; */
     height: 200px;
     width: 200px;
@@ -486,7 +486,7 @@ body {
     margin-left: 40px;
 }
 
-.activementProgressRing {
+.achievementProgressRing {
     transition: stroke-dashoffset 1s ease;
     transform: rotate(-90deg);
     transform-origin: 50% 50%;
@@ -591,7 +591,7 @@ body {
     border: 1px solid rgba(255,255,255,0);
 }
 
-#activementProgressRingBG {
+#achievementProgressRingBG {
     stroke: rgba(0,0,0,0.2);
 }
 
@@ -654,11 +654,11 @@ body {
         border: 1px solid rgba(0,0,0,0.1);
     }
 
-    #activementProgressRingBG {
+    #achievementProgressRingBG {
         stroke: rgba(255,255,255,0.5);
     }
 
-    .activementProgressRing {
+    .achievementProgressRing {
         opacity: 0.8;
     }
 
