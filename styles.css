@@ -379,7 +379,7 @@ body {
     flex-direction: row;
     justify-content: start;
     overflow-x: hidden;
-    overflow-y: visible;
+    overflow-y: hidden;
     /* background-color: rgba(100,100,100,0.1); */
     /* border: 1px solid rgba(0,0,0,0.1); */
     border-radius: 10px;
@@ -522,7 +522,7 @@ body {
     flex-direction: row;
     justify-content: start;
     overflow-x: hidden;
-    overflow-y: visible;
+    overflow-y: hidden;
     /* background-color: rgba(100,100,100,0.1); */
     /* border: 1px solid rgba(0,0,0,0.1); */
     border-radius: 10px;
