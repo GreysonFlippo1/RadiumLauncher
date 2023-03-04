@@ -249,7 +249,7 @@ const renderGameTab = (game) => {
         } else {
             playText.innerText = 'PLAY'
             playIcon.style.display = 'block'
-            document.getElementById('playButton').addEventListener('click', () => { launchGame(game.appid) })
+            document.getElementById('playButton').addEventListener('click', () => { launchGame() })
         }
     
         backgroundBlur.style.backgroundImage = `url("https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/library_hero.jpg")`
@@ -261,7 +261,7 @@ const renderGameTab = (game) => {
 
 }
 
-const launchGame = (appid, args = '') => {
+const launchGame = (appid = state.selectedGame.appid, args = '') => {
     (async () => {
         // const foundDirectory = getInstalledGames(appid)
         // + '/steamapps/common/'
