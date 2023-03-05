@@ -854,6 +854,7 @@ body {
 
     .achievementProgressRing {
         opacity: 1;
+        filter: brightness(150%) saturate(80%);
     }
 
     #filterBar {
