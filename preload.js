@@ -524,12 +524,14 @@ const renderDeveloperUpdatesPane = () => {
         document.getElementById('update1').style.backgroundColor = 'rgba(100,100,100,0.1)'
         document.getElementById('update2').style.display = 'flex'
         document.getElementById('noteDescription1').style.display = 'block'
+        document.getElementById('noteImg1').style.display = 'block'
 
         if (!newsItems.length) {
             document.getElementById('update1').style.backgroundColor = 'rgba(100,100,100,0)'
             document.getElementById('update2').style.display = 'none'
             document.getElementById('noteTitle1').innerText = 'No Updates'
             document.getElementById('noteDescription1').style.display = 'none'
+            document.getElementById('noteImg1').style.display = 'none'
             return
         }
 
