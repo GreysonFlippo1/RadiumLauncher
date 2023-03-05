@@ -9,6 +9,8 @@ const { ipcRenderer } = require('electron')
 
 const { STEAM_KEY, STEAM_ID } = process.env
 
+const STEAM_CLAN_IMAGE = 'https://cdn.akamai.steamstatic.com/steamcommunity/public/images/clans/'
+
 const state = {
     libraryfolders: {},
     installedGames: [],
@@ -21,8 +23,6 @@ const state = {
     achievementsRatio: [0, 0], // complete, incomplete
     friends: []
 }
-
-// https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=960090
 
 ipcRenderer.on('steamAppFolders', function (event, data) {
     state.libraryfolders = data.libraryfolders
@@ -260,6 +260,7 @@ const renderGameTab = (game) => {
         getAchievements(game.appid)
         getFriends()
         renderQuickDetailsPane()
+        renderDeveloperUpdatesPane()
     }
 
 }
@@ -452,7 +453,6 @@ const renderAchievementsPane = () => {
 }
 
 const renderQuickDetailsPane = () => {
-    console.log(state.selectedGameInfo)
     const selectedGameInfo = state.selectedGameInfo
     document.getElementById('quickDetailsTitle').innerText = `About ${selectedGameInfo.name}`
     document.getElementById('gameDescription').innerHTML = selectedGameInfo.short_description ?? selectedGameInfo.about_the_game
@@ -500,7 +500,65 @@ const renderQuickDetailsPane = () => {
     })
     document.getElementById('quickGameDetailPlatforms').innerHTML = `<span>Platforms</span> ${platforms}`
 
-    document.getElementById('quickGameDetailPrice').innerHTML = `<span>Current Price</span> ${selectedGameInfo.price_overview.final_formatted}`
+    document.getElementById('quickGameDetailPrice').innerHTML = `<span>Current Price</span> ${selectedGameInfo?.price_overview?.final_formatted ?? 'N/A'}`
+}
+
+const renderDeveloperUpdatesPane = () => {
+    const appid = state.selectedGame.appid
+    const url = `https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=${appid}&count=2&maxlength=500&tags=patchnotes`
+    makeRequest('GET', url, (res) => {
+        const updatesResponse = JSON.parse(res)
+        const newsItems = updatesResponse?.appnews?.newsitems ?? []
+
+        const hasImg1 = newsItems[0].contents.search('{STEAM_CLAN_IMAGE}')
+        if (hasImg1 >= 0) {
+            const png = newsItems[0].contents.search('.png')
+            const jpg = newsItems[0].contents.search('.jpg')
+            const end = png >= 0 ? png + 4 : jpg + 4
+            const img1Url = newsItems[0].contents.substring(hasImg1 + 18, end)
+            document.getElementById('noteImg1').style.display = 'block'
+            document.getElementById('noteImg1').style.backgroundImage = `url("${STEAM_CLAN_IMAGE}${img1Url}")`
+            document.getElementById('noteDescription1').innerHTML = newsItems[0].contents.substring(end)
+            document.getElementById('noteDescription1').style.marginLeft = '0px'
+            document.getElementById('noteTitle1').style.marginLeft = '0px'
+        } else {
+            document.getElementById('noteImg1').style.display = 'none'
+            document.getElementById('noteDescription1').innerHTML = newsItems[0].contents
+            document.getElementById('noteDescription1').style.marginLeft = '75px'
+            document.getElementById('noteTitle1').style.marginLeft = '75px'
+        }
+
+        const hasImg2 = newsItems[1].contents.search('{STEAM_CLAN_IMAGE}')
+        if (hasImg2 >= 0) {
+            const png = newsItems[1].contents.search('.png')
+            const jpg = newsItems[1].contents.search('.jpg')
+            const end = png >= 0 ? png + 4 : jpg + 4
+            const img2Url = newsItems[1].contents.substring(hasImg2 + 18, end)
+            document.getElementById('noteImg2').style.display = 'block'
+            document.getElementById('noteImg2').style.backgroundImage = `url("${STEAM_CLAN_IMAGE}${img2Url}")`
+            document.getElementById('noteDescription2').innerHTML = newsItems[1].contents.substring(end)
+            document.getElementById('noteDescription2').style.marginLeft = '0px'
+            document.getElementById('noteTitle2').style.marginLeft = '0px'
+        } else {
+            document.getElementById('noteImg2').style.display = 'none'
+            document.getElementById('noteDescription2').innerHTML = newsItems[1].contents
+            document.getElementById('noteDescription2').style.marginLeft = '75px'
+            document.getElementById('noteTitle2').style.marginLeft = '75px'
+        }
+
+        const post1Date = new Date(newsItems[0].date * 1000)
+        const post1Month = post1Date.getMonth()
+        const post1Year = post1Date.getFullYear()
+        const post1Day = post1Date.getDate()
+        document.getElementById('noteTitle1').innerHTML = `${newsItems[0].title} • <span>${months[post1Month]} ${post1Day}, ${post1Year}</span>`
+
+        const post2Date = new Date(newsItems[1].date * 1000)
+        const post2Month = post2Date.getMonth()
+        const post2Year = post2Date.getFullYear()
+        const post2Day = post2Date.getDate()
+        document.getElementById('noteTitle2').innerHTML = `${newsItems[1].title} • <span>${months[post2Month]} ${post2Day}, ${post2Year}</span>`
+
+    })
 }
 
 window.addEventListener('DOMContentLoaded', () => {

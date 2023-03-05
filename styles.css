@@ -656,6 +656,77 @@ body {
     white-space: normal;
 }
 
+.updatesArea {
+    color: #ccc;
+    margin-right: 40px;
+    margin-left: 40px;
+    margin-top: 10px;
+    height: 250px;
+    /* border-radius: 10px; */
+    /* background-color: rgba(100,100,100,0.1); */
+    /* padding: 10px; */
+    /* border: 1px solid rgba(0,0,0,0.1); */
+}
+
+.updateContainer {
+    width: 100%;
+    height: calc(50% - 10px);
+    background-color: rgba(100,100,100,0.1);
+    border-radius: 10px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.updateContainer .updateImage {
+    width: 150px;
+    height: calc(100% - 20px);
+    margin: 10px;
+    border-radius: 10px;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-color: rgba(255,255,255,0.1);
+}
+
+.updateContainer .notes {
+    width: calc(100% - 150px);
+    height: calc(100% - 20px);
+    margin: 10px;
+    margin-left: 0px;
+    background-size: cover;
+    background-position: 50% 50%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.notesText {
+    width: 100%;
+}
+
+.notesTitle {
+    height: 30%;
+    font-size: 15px;
+    line-height: 30px;
+    color: #fff;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.notesTitle span {
+    color: #ccc;
+}
+
+.notesDescription {
+    height: calc(70% - 7px);
+    overflow: hidden;
+    font-size: 12px;
+    line-height: 19px;
+    padding-top:  2px;
+}
+
 @media (prefers-color-scheme: light) {
     body {
         background-color: #fff;
@@ -789,6 +860,18 @@ body {
 
     .quickGameDetail span{
         color: #000;
+    }
+
+    .updatesArea {
+        color: #666;
+    }
+
+    .notesTitle {
+        color: #000;
+    }
+
+    .notesTitle span {
+        color: #666;
     }
 
 }
