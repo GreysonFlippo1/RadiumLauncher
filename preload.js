@@ -343,6 +343,7 @@ const RenderFriendsPane = () => {
         const friendIconElement = document.getElementById('friendIcon_' + friend.steamid)
         friendIconElement.style.backgroundImage = `url('${friendIcon}')`
         friendIconElement.classList.add('friendLinkIcon')
+        // use classList.add('idle') for online but not playing a game
         if (!friend.gameid) friendIconElement.classList.add('offline')
 
         const friendNameElement = document.getElementById('friendName_' + friend.steamid)
@@ -377,6 +378,19 @@ const getAchievementsInfo = () => {
     makeRequest('GET', url, (achievementsResponse) => {
         achievementsResponse = JSON.parse(achievementsResponse)
         const achievementsInfo = achievementsResponse.game.availableGameStats.achievements
+        state.achievements.forEach((achievement, i) => {
+            const achievementInfo = achievementsInfo.find(a => a.name === achievement.apiname) ?? {}
+            state.achievements[i] = { ...achievement, ...achievementInfo }
+        })
+        getGlobalAchievmentStats()
+    })
+}
+
+const getGlobalAchievmentStats = () => {
+    const url = `https://api.steampowered.com/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v2/?gameid=${state.selectedGame.appid}`
+    makeRequest('GET', url, (achievementsResponse) => {
+        achievementsResponse = JSON.parse(achievementsResponse)
+        const achievementsInfo = achievementsResponse.achievementpercentages?.achievements ?? []
         state.achievements.forEach((achievement, i) => {
             const achievementInfo = achievementsInfo.find(a => a.name === achievement.apiname) ?? {}
             state.achievements[i] = { ...achievement, ...achievementInfo }
@@ -418,10 +432,10 @@ const renderAchievementsPane = () => {
     }
 
     shownAchievements = shownAchievements.sort((a, b) => {
-        if (a.unlocktime < b.unlocktime) {
+        if (a.percent > b.percent) {
             return 1
         }
-        if (a.unlocktime > b.unlocktime) {
+        if (a.percent < b.percent) {
             return -1
         }
         return 0
@@ -445,6 +459,9 @@ const renderAchievementsPane = () => {
         const achivementIconElement = document.getElementById('achivementIcon_' + achievement.name)
         achivementIconElement.style.backgroundImage = `url('${achievementIcon}')`
         achivementIconElement.classList.add('achievementLinkIcon')
+        if (achievement.percent && achievement.achieved && achievement.percent < 10) {
+            achivementLinkElement.classList.add('rare')
+        }
 
         const achivementNameElement = document.getElementById('achivementName_' + achievement.name)
         achivementNameElement.innerText = achievement.displayName
@@ -452,14 +469,29 @@ const renderAchievementsPane = () => {
     })
 
     const [complete, incomplete] = state.achievementsRatio
-    // const [complete, incomplete] = [100, 0]
+    // if (state.selectedGame.appid === 960090) { [complete, incomplete] = [100, 0] } // use if testing animations
     document.getElementById('achievementsTitle').innerText = `Achievements - ${complete} of ${complete + incomplete} Completed`
     document.getElementById('achievementsSubTitle').innerText = `${incomplete} Achievements Left`
 
     const roundedPercent = Math.round((complete / (complete + incomplete) * 100))
     document.getElementById('achievementPercentage').textContent = `${roundedPercent}%`
-
-    setProgress(complete / (complete + incomplete))
+    if (roundedPercent === 100) {
+        setProgress(complete / (complete + incomplete))
+        circle.style.stroke = 'url(#gold)'
+        circle.style.animation = 'goldGlowRing 5s linear 0s infinite forwards'
+        setTimeout(() => {
+            const [complete, incomplete] = state.achievementsRatio
+            const roundedPercentCheck = Math.round((complete / (complete + incomplete) * 100))
+            if (roundedPercentCheck === 100) {
+                circle.style.strokeDashoffset = 'none'
+                circle.style.strokeDasharray = 'none'
+            }
+        }, 1000)
+    } else {
+        circle.style.stroke = 'url(#gradient)'
+        circle.style.animation = 'none'
+        setProgress(complete / (complete + incomplete))
+    }
 
 }
 

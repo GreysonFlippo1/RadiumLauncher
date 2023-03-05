@@ -52,9 +52,15 @@
           <div id="achievementsData">
             <svg  class="achievementProgressContainer" width="200" height="200">
               <defs>
-                <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="100%">
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="rgba(229, 94, 45, 1)"/>
                 <stop offset="100%" stop-color="rgba(201, 54, 209, 1)"/>
+                </linearGradient>
+              </defs>
+              <defs>
+                <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="rgba(255, 166, 0, 1)"/>
+                <stop offset="100%" stop-color="rgba(255, 255, 80, 1)"/>
                 </linearGradient>
               </defs>
               <circle
@@ -73,7 +79,7 @@
                 stroke-width="30"
                 fill="transparent"
                 shape-rendering="geometricPrecision"
-                stroke="url(#linear)"
+                stroke="url(#gradient)"
                 r="83"
                 cx="100"
                 cy="100">
