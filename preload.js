@@ -230,7 +230,7 @@ const renderGameTab = (game) => {
     state.tab = 'game'
 
     if (!state.selectedGameInfo.appid || state.selectedGameInfo.appid !== state.selectedGame.appid) {
-        const url = `http://store.steampowered.com/api/appdetails?appids=${game.appid}`
+        const url = `http://store.steampowered.com/api/appdetails?appids=${game.appid}&language=English`
         makeRequest('GET', url, (selectedGameInfo) => {
             state.selectedGameInfo = JSON.parse(selectedGameInfo)
             state.selectedGameInfo = { ...state.selectedGame, ...state.selectedGameInfo[game.appid].data }
@@ -454,6 +454,7 @@ const renderAchievementsPane = () => {
 
 const renderQuickDetailsPane = () => {
     const selectedGameInfo = state.selectedGameInfo
+    console.log(selectedGameInfo)
     document.getElementById('quickDetailsTitle').innerText = `About ${selectedGameInfo.name}`
     document.getElementById('gameDescription').innerHTML = selectedGameInfo.short_description ?? selectedGameInfo.about_the_game
     // https://store.akamai.steamstatic.com/public/images/v6/ico/ico_singlePlayer.png
@@ -479,7 +480,7 @@ const renderQuickDetailsPane = () => {
 
     document.getElementById('quickGameDetailReleaseDate').innerHTML = `<span>Release Date</span> ${selectedGameInfo.release_date.date}`
 
-    document.getElementById('quickGameDetailSupportInfo').innerHTML = `<span>Support Info</span> ${selectedGameInfo.support_info.url}`
+    document.getElementById('quickGameDetailSupportInfo').innerHTML = `<span>Support Info</span> ${selectedGameInfo.support_info.url || selectedGameInfo.support_info.email}`
 
     let categories = ''
     selectedGameInfo.categories.forEach((cat, i) => {
@@ -524,8 +525,8 @@ const renderDeveloperUpdatesPane = () => {
         } else {
             document.getElementById('noteImg1').style.display = 'none'
             document.getElementById('noteDescription1').innerHTML = newsItems[0].contents
-            document.getElementById('noteDescription1').style.marginLeft = '75px'
-            document.getElementById('noteTitle1').style.marginLeft = '75px'
+            document.getElementById('noteDescription1').style.marginLeft = '85px'
+            document.getElementById('noteTitle1').style.marginLeft = '85px'
         }
 
         const hasImg2 = newsItems[1].contents.search('{STEAM_CLAN_IMAGE}')
@@ -542,8 +543,8 @@ const renderDeveloperUpdatesPane = () => {
         } else {
             document.getElementById('noteImg2').style.display = 'none'
             document.getElementById('noteDescription2').innerHTML = newsItems[1].contents
-            document.getElementById('noteDescription2').style.marginLeft = '75px'
-            document.getElementById('noteTitle2').style.marginLeft = '75px'
+            document.getElementById('noteDescription2').style.marginLeft = '85px'
+            document.getElementById('noteTitle2').style.marginLeft = '85px'
         }
 
         const post1Date = new Date(newsItems[0].date * 1000)
