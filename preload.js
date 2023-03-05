@@ -505,7 +505,7 @@ const renderQuickDetailsPane = () => {
 
 const renderDeveloperUpdatesPane = () => {
     const appid = state.selectedGame.appid
-    const url = `https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=${appid}&count=2&maxlength=500&tags=patchnotes`
+    const url = `https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=${appid}&count=2&maxlength=1000&tags=patchnotes`
     makeRequest('GET', url, (res) => {
         const updatesResponse = JSON.parse(res)
         const newsItems = updatesResponse?.appnews?.newsitems ?? []
