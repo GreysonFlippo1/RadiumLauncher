@@ -9,7 +9,7 @@ const { ipcRenderer } = require('electron')
 
 const { STEAM_KEY, STEAM_ID } = process.env
 
-const STEAM_CLAN_IMAGE = 'https://cdn.akamai.steamstatic.com/steamcommunity/public/images/clans/'
+const STEAM_CLAN_IMAGE = 'https://cdn.akamai.steamstatic.com/steamcommunity/public/images/clans'
 
 const state = {
     libraryfolders: {},
@@ -511,7 +511,7 @@ const renderQuickDetailsPane = () => {
 
 const renderDeveloperUpdatesPane = () => {
     const appid = state.selectedGame.appid
-    const url = `https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=${appid}&count=2&maxlength=1000&tags=patchnotes`
+    const url = `https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=${appid}&count=2&maxlength=1000&feeds=steam_community_announcements`
     makeRequest('GET', url, (res) => {
         const updatesResponse = JSON.parse(res)
         const newsItems = updatesResponse?.appnews?.newsitems ?? []
@@ -519,53 +519,22 @@ const renderDeveloperUpdatesPane = () => {
         document.getElementById('update1').style.backgroundColor = 'rgba(100,100,100,0.1)'
         document.getElementById('update2').style.display = 'flex'
         document.getElementById('noteDescription1').style.display = 'block'
-        document.getElementById('noteImg1').style.display = 'block'
 
         if (!newsItems.length) {
             document.getElementById('update1').style.backgroundColor = 'rgba(100,100,100,0)'
             document.getElementById('update2').style.display = 'none'
             document.getElementById('noteTitle1').innerText = 'No Updates'
             document.getElementById('noteDescription1').style.display = 'none'
-            document.getElementById('noteImg1').style.display = 'none'
-            document.getElementById('noteTitle1').style.marginLeft = '0px'
             return
         }
 
-        const hasImg1 = newsItems[0].contents.search('{STEAM_CLAN_IMAGE}')
-        if (hasImg1 >= 0) {
-            const png = newsItems[0].contents.search('.png')
-            const jpg = newsItems[0].contents.search('.jpg')
-            const end = png >= 0 ? png + 4 : jpg + 4
-            const img1Url = newsItems[0].contents.substring(hasImg1 + 18, end)
-            document.getElementById('noteImg1').style.display = 'block'
-            document.getElementById('noteImg1').style.backgroundImage = `url("${STEAM_CLAN_IMAGE}${img1Url}")`
-            document.getElementById('noteDescription1').innerHTML = newsItems[0].contents.substring(end)
-            document.getElementById('noteDescription1').style.marginLeft = '0px'
-            document.getElementById('noteTitle1').style.marginLeft = '0px'
-        } else {
-            document.getElementById('noteImg1').style.display = 'none'
-            document.getElementById('noteDescription1').innerHTML = newsItems[0].contents
-            document.getElementById('noteDescription1').style.marginLeft = '85px'
-            document.getElementById('noteTitle1').style.marginLeft = '85px'
-        }
+        const image1 = getImageFromDescription(newsItems[0].contents)
+        const image2 = getImageFromDescription(newsItems[1].contents)
 
-        const hasImg2 = newsItems[1].contents.search('{STEAM_CLAN_IMAGE}')
-        if (hasImg2 >= 0) {
-            const png = newsItems[1].contents.search('.png')
-            const jpg = newsItems[1].contents.search('.jpg')
-            const end = png >= 0 ? png + 4 : jpg + 4
-            const img2Url = newsItems[1].contents.substring(hasImg2 + 18, end)
-            document.getElementById('noteImg2').style.display = 'block'
-            document.getElementById('noteImg2').style.backgroundImage = `url("${STEAM_CLAN_IMAGE}${img2Url}")`
-            document.getElementById('noteDescription2').innerHTML = newsItems[1].contents.substring(end)
-            document.getElementById('noteDescription2').style.marginLeft = '0px'
-            document.getElementById('noteTitle2').style.marginLeft = '0px'
-        } else {
-            document.getElementById('noteImg2').style.display = 'none'
-            document.getElementById('noteDescription2').innerHTML = newsItems[1].contents
-            document.getElementById('noteDescription2').style.marginLeft = '85px'
-            document.getElementById('noteTitle2').style.marginLeft = '85px'
-        }
+        document.getElementById('noteImg1').style.backgroundImage = `url("${image1[0]}")`
+        document.getElementById('noteImg2').style.backgroundImage = `url("${image2[0]}")`
+        document.getElementById('noteDescription1').innerHTML = image1[1]
+        document.getElementById('noteDescription2').innerHTML = image2[1]
 
         const post1Date = new Date(newsItems[0].date * 1000)
         const post1Month = post1Date.getMonth()
@@ -580,6 +549,42 @@ const renderDeveloperUpdatesPane = () => {
         document.getElementById('noteTitle2').innerHTML = `${newsItems[1].title} • <span>${months[post2Month]} ${post2Day}, ${post2Year}</span>`
 
     })
+}
+
+const getImageFromDescription = (description) => {
+    description = description.replaceAll('{STEAM_CLAN_IMAGE}', STEAM_CLAN_IMAGE)
+
+    let imageEnd = description.search('.png')
+    if (imageEnd === -1) {
+        imageEnd = description.search('.jpg')
+    }
+
+    // still nothing
+    if (imageEnd === -1) {
+        return [state.selectedGameInfo.header_image, description]
+    }
+
+    let start = imageEnd - 4
+    let found = false
+
+    while (start >= 0 && !found) {
+        if (description.substring(start, start + 4) === 'http') {
+            found = true
+        } else {
+            start--
+        }
+    }
+    
+    // bad link
+    if (start === -1) {
+        return [state.selectedGameInfo.header_image, description]
+    }
+
+    const finalURL = description.substring(start, imageEnd + 4)
+    const finalDescription = description.replace(finalURL, '')
+
+    return [finalURL, finalDescription]
+
 }
 
 window.addEventListener('DOMContentLoaded', () => {
