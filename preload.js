@@ -48,7 +48,7 @@ const getInstalledGames = (appid) => {
 const makeRequest = (action, url, after) => {
     const http = new XMLHttpRequest()
     http.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
+        if (this.readyState === 4 && (this.status === 200 || this.status === 400)) {
             after(this.response)
         }
     }
@@ -364,7 +364,11 @@ const getAchievements = (appid) => {
     makeRequest('GET', url, (achievementsResponse) => {
         const achievements = JSON.parse(achievementsResponse)
         state.achievements = achievements.playerstats?.achievements ?? []
-        getAchievementsInfo()
+        if (achievements.playerstats.success) {
+            getAchievementsInfo()
+        } else {
+            renderAchievementsPane()
+        }
     })
 }
 
@@ -391,10 +395,24 @@ const renderAchievementsPane = () => {
 
     state.achievementsRatio = [0, 0]
 
+    const circle = document.getElementById('achievementProgressRing')
+    const radius = circle.r.baseVal.value
+    const circumference = radius * 2 * Math.PI
+
+    circle.style.strokeDasharray = `${circumference} ${circumference}`
+    circle.style.strokeDashoffset = `${circumference}`
+
+    const setProgress = (percent) => {
+        const offset = circumference - percent * circumference
+        circle.style.strokeDashoffset = offset
+    }
+
     if (!shownAchievements.length) {
         const [complete, incomplete] = state.achievementsRatio
         document.getElementById('achievementsTitle').innerText = `Achievements - ${complete} of ${complete + incomplete} Completed`
         document.getElementById('achievementsSubTitle').innerText = `${incomplete} Achievements Left`
+
+        setProgress(0)
         return false
     }
 
@@ -435,18 +453,6 @@ const renderAchievementsPane = () => {
     const [complete, incomplete] = state.achievementsRatio
     document.getElementById('achievementsTitle').innerText = `Achievements - ${complete} of ${complete + incomplete} Completed`
     document.getElementById('achievementsSubTitle').innerText = `${incomplete} Achievements Left`
-
-    const circle = document.getElementById('achievementProgressRing')
-    const radius = circle.r.baseVal.value
-    const circumference = radius * 2 * Math.PI
-
-    circle.style.strokeDasharray = `${circumference} ${circumference}`
-    circle.style.strokeDashoffset = `${circumference}`
-
-    const setProgress = (percent) => {
-        const offset = circumference - percent * circumference
-        circle.style.strokeDashoffset = offset
-    }
 
     setProgress(complete / (complete + incomplete))
 
@@ -509,6 +515,21 @@ const renderDeveloperUpdatesPane = () => {
     makeRequest('GET', url, (res) => {
         const updatesResponse = JSON.parse(res)
         const newsItems = updatesResponse?.appnews?.newsitems ?? []
+        
+        document.getElementById('update1').style.backgroundColor = 'rgba(100,100,100,0.1)'
+        document.getElementById('update2').style.display = 'flex'
+        document.getElementById('noteDescription1').style.display = 'block'
+        document.getElementById('noteImg1').style.display = 'block'
+
+        if (!newsItems.length) {
+            document.getElementById('update1').style.backgroundColor = 'rgba(100,100,100,0)'
+            document.getElementById('update2').style.display = 'none'
+            document.getElementById('noteTitle1').innerText = 'No Updates'
+            document.getElementById('noteDescription1').style.display = 'none'
+            document.getElementById('noteImg1').style.display = 'none'
+            document.getElementById('noteTitle1').style.marginLeft = '0px'
+            return
+        }
 
         const hasImg1 = newsItems[0].contents.search('{STEAM_CLAN_IMAGE}')
         if (hasImg1 >= 0) {
