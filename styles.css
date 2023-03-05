@@ -382,7 +382,7 @@ body {
     overflow-y: hidden;
     /* background-color: rgba(100,100,100,0.1); */
     /* border: 1px solid rgba(0,0,0,0.1); */
-    border-radius: 10px;
+    /* border-radius: 10px; */
     color: #ccc;
 }
 
@@ -525,7 +525,7 @@ body {
     overflow-y: hidden;
     /* background-color: rgba(100,100,100,0.1); */
     /* border: 1px solid rgba(0,0,0,0.1); */
-    border-radius: 10px;
+    /* border-radius: 10px; */
     color: #ccc;
 }
 
@@ -595,6 +595,66 @@ body {
     stroke: rgba(0,0,0,0.2);
 }
 
+#gameDescription {
+    color: #ccc;
+    margin-right: 20px;
+    margin-left: 40px;
+    margin-top: 20px;
+    max-height: 80px;
+    height: 80px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: start;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    /* border-radius: 10px;
+    background-color: rgba(100,100,100,0.1);
+    padding: 10px; */
+    /* border: 1px solid rgba(0,0,0,0.1); */
+}
+
+#gameQuickDetailsArea {
+    color: #ccc;
+    margin-right: 20px;
+    margin-left: 40px;
+    margin-top: 10px;
+    max-height: 140px;
+    height: 140px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: start;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    /* border-radius: 10px;
+    background-color: rgba(100,100,100,0.1);
+    padding: 10px; */
+    /* border: 1px solid rgba(0,0,0,0.1); */
+}
+
+.quickGameDetail {
+    width: calc(50% - 10px);
+    height: calc(25% - 10px);
+    padding-right: 10px;
+    padding-top: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.quickGameDetail span{
+    color: #fff;
+    margin-right: 5px;
+    display: inline-block;
+    min-width: 100px;
+}
+
+#quickGameDetailCategories {
+    height: calc(50% - 10px);
+    white-space: normal;
+}
 
 @media (prefers-color-scheme: light) {
     body {
@@ -718,7 +778,19 @@ body {
         background-color: rgba(255, 255, 255, 1);
         border: 1px solid rgba(0,0,0,0.1);
     }
-    
+
+    #gameDescription {
+        color: #666
+    }
+
+    #gameQuickDetailsArea {
+        color: #666
+    }
+
+    .quickGameDetail span{
+        color: #000;
+    }
+
 }
 
 

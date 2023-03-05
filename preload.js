@@ -22,6 +22,8 @@ const state = {
     friends: []
 }
 
+// https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=960090
+
 ipcRenderer.on('steamAppFolders', function (event, data) {
     state.libraryfolders = data.libraryfolders
     getInstalledGames()
@@ -257,6 +259,7 @@ const renderGameTab = (game) => {
         gameTitle.innerText = state.selectedGameInfo.name
         getAchievements(game.appid)
         getFriends()
+        renderQuickDetailsPane()
     }
 
 }
@@ -446,6 +449,58 @@ const renderAchievementsPane = () => {
 
     setProgress(complete / (complete + incomplete))
 
+}
+
+const renderQuickDetailsPane = () => {
+    console.log(state.selectedGameInfo)
+    const selectedGameInfo = state.selectedGameInfo
+    document.getElementById('quickDetailsTitle').innerText = `About ${selectedGameInfo.name}`
+    document.getElementById('gameDescription').innerHTML = selectedGameInfo.short_description ?? selectedGameInfo.about_the_game
+    // https://store.akamai.steamstatic.com/public/images/v6/ico/ico_singlePlayer.png
+    // + "_" +
+
+    let developers = ''
+    selectedGameInfo.developers.forEach((dev, i) => {
+        developers += `${dev}`
+        if (i !== selectedGameInfo.developers.length - 1) {
+            developers += ', '
+        }
+    })
+    document.getElementById('quickGameDetailDeveloper').innerHTML = `<span>Developer${selectedGameInfo.developers.length > 1 ? 's' : ''}</span> ${developers}`
+
+    let publishers = ''
+    selectedGameInfo.publishers.forEach((dev, i) => {
+        publishers += `${dev}`
+        if (i !== selectedGameInfo.publishers.length - 1) {
+            publishers += ', '
+        }
+    })
+    document.getElementById('quickGameDetailPublisher').innerHTML = `<span>Publisher${selectedGameInfo.publishers.length > 1 ? 's' : ''}</span> ${publishers}`
+
+    document.getElementById('quickGameDetailReleaseDate').innerHTML = `<span>Release Date</span> ${selectedGameInfo.release_date.date}`
+
+    document.getElementById('quickGameDetailSupportInfo').innerHTML = `<span>Support Info</span> ${selectedGameInfo.support_info.url}`
+
+    let categories = ''
+    selectedGameInfo.categories.forEach((cat, i) => {
+        categories += `${cat.description}`
+        if (i !== selectedGameInfo.categories.length - 1) {
+            categories += ', '
+        }
+    })
+    document.getElementById('quickGameDetailCategories').innerHTML = `<span>Categories</span> ${categories}`
+
+    let platforms = ''
+    const validPlatforms = Object.keys(selectedGameInfo.platforms).filter(os => selectedGameInfo.platforms[os])
+    validPlatforms.forEach((os, i) => {
+        platforms += `${os}`
+        if (i !== validPlatforms.length - 1) {
+            platforms += ', '
+        }
+    })
+    document.getElementById('quickGameDetailPlatforms').innerHTML = `<span>Platforms</span> ${platforms}`
+
+    document.getElementById('quickGameDetailPrice').innerHTML = `<span>Current Price</span> ${selectedGameInfo.price_overview.final_formatted}`
 }
 
 window.addEventListener('DOMContentLoaded', () => {
