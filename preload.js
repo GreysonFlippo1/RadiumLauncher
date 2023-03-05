@@ -454,7 +454,6 @@ const renderAchievementsPane = () => {
 
 const renderQuickDetailsPane = () => {
     const selectedGameInfo = state.selectedGameInfo
-    console.log(selectedGameInfo)
     document.getElementById('quickDetailsTitle').innerText = `About ${selectedGameInfo.name}`
     document.getElementById('gameDescription').innerHTML = selectedGameInfo.short_description ?? selectedGameInfo.about_the_game
     // https://store.akamai.steamstatic.com/public/images/v6/ico/ico_singlePlayer.png
