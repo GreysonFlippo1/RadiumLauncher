@@ -411,6 +411,7 @@ const renderAchievementsPane = () => {
         const [complete, incomplete] = state.achievementsRatio
         document.getElementById('achievementsTitle').innerText = `Achievements - ${complete} of ${complete + incomplete} Completed`
         document.getElementById('achievementsSubTitle').innerText = `${incomplete} Achievements Left`
+        document.getElementById('achievementPercentage').textContent = '0%'
 
         setProgress(0)
         return false
@@ -451,8 +452,12 @@ const renderAchievementsPane = () => {
     })
 
     const [complete, incomplete] = state.achievementsRatio
+    // const [complete, incomplete] = [100, 0]
     document.getElementById('achievementsTitle').innerText = `Achievements - ${complete} of ${complete + incomplete} Completed`
     document.getElementById('achievementsSubTitle').innerText = `${incomplete} Achievements Left`
+
+    const roundedPercent = Math.round((complete / (complete + incomplete) * 100))
+    document.getElementById('achievementPercentage').textContent = `${roundedPercent}%`
 
     setProgress(complete / (complete + incomplete))
 

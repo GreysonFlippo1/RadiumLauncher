@@ -595,6 +595,11 @@ body {
     stroke: rgba(0,0,0,0.2);
 }
 
+#achievementPercentage {
+    fill: #fff;
+    font-size: 40px;
+}
+
 #gameDescription {
     color: #ccc;
     margin-right: 20px;
