@@ -607,15 +607,28 @@ const renderDeveloperUpdatesPane = () => {
 const getImageFromDescription = (description) => {
     description = description.replaceAll('{STEAM_CLAN_IMAGE}', STEAM_CLAN_IMAGE)
 
-    let imageEnd = description.search('.png')
-    if (imageEnd === -1) {
-        imageEnd = description.search('.jpg')
-    }
+    const imageEnds = [
+            description.search('.png'),
+            description.search('.jpg'),
+            description.search('.gif')
+        ]
+        .filter(a => a !== -1)
+        .sort((a, b) => {
+            if (a > b) {
+                return 1
+            }
+            if (a < b) {
+                return -1
+            }
+            return 0
+    })
 
     // still nothing
-    if (imageEnd === -1) {
+    if (!imageEnds.length) {
         return [state.selectedGameInfo.header_image, description]
     }
+
+    const imageEnd = imageEnds[0]
 
     let start = imageEnd - 4
     let found = false
