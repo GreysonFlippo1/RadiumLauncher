@@ -486,7 +486,7 @@ const renderAchievementsPane = () => {
         setProgress(complete / (complete + incomplete))
         circle.style.stroke = 'url(#gold)'
         circle.style.animation = 'goldGlowRing 5s linear 0s infinite forwards'
-        document.getElementById('achievementPercentage').style.fill = 'rgb(255, 140, 0)'
+        document.getElementById('achievementPercentage').style.fill = 'rgb(255, 120, 0)'
         setTimeout(() => {
             const [complete, incomplete] = state.achievementsRatio
             const roundedPercentCheck = Math.round((complete / (complete + incomplete) * 100))

@@ -658,6 +658,7 @@ body {
     transition: fill 1s;
     font-weight: bold;
     text-shadow: 0px 0px 5px rgba(0,0,0,0.7);
+    filter: brightness(130%) saturate(80%);
 }
 
 #gameDescription {
