@@ -20,19 +20,31 @@ body {
     position: absolute;
     top: 30px;
     left: 14px;
-    width: 300px;
+    width: 265px;
     height: 30px;
     border-radius: 7px;
     border: 1px solid rgba(0,0,0,0.5);
     background-color: rgba(255,255,255,0.1);
     color: white;
     font-size: 18px;
-    padding-left: 5px;
+    padding-left: 40px;
     padding-right: 5px;
 }
 
 #textFilter:focus, input:focus{
     outline: none;
+}
+
+#searchIcon {
+    background-image: url('./icons/Search_Icon.png');
+    background-size: 18px 18px;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    width: 30px;
+    height: 30px;
+    top: 32px;
+    left: 22px;
+    position: absolute;
 }
 
 #filterBar {
@@ -173,6 +185,22 @@ body {
     line-height: 30px;
     border-radius: 7px;
     text-shadow: 1px -1px 5px rgba(0,0,0,0.64);
+    background-size: 18px 18px;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+}
+
+#chronological {
+    background-image: url('./icons/Chronologtical_Icon.png');
+}
+
+#alphabetic {
+    background-image: url('./icons/Alphabetical_Icon.png');
+}
+
+/* change to favorites later, needs change in preload.js */
+#filter {
+    background-image: url('./icons/Search_Icon.png');
 }
 
 .activeFilter {
