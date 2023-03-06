@@ -426,6 +426,7 @@ const renderAchievementsPane = () => {
         document.getElementById('achievementsTitle').innerText = `Achievements - ${complete} of ${complete + incomplete} Completed`
         document.getElementById('achievementsSubTitle').innerText = `${incomplete} Achievements Left`
         document.getElementById('achievementPercentage').textContent = '0%'
+        document.getElementById('achievementPercentage').style.fill = 'rgb(201, 54, 209)'
 
         setProgress(0)
         return false
@@ -474,11 +475,18 @@ const renderAchievementsPane = () => {
     document.getElementById('achievementsSubTitle').innerText = `${incomplete} Achievements Left`
 
     const roundedPercent = Math.round((complete / (complete + incomplete) * 100))
+
+    const red = Math.round((229 - 201) * roundedPercent / 100) + 201
+    const green = Math.round((94 - 54) * roundedPercent / 100) + 54
+    const blue = Math.round((45 - 209) * roundedPercent / 100) + 209
+
+    document.getElementById('achievementPercentage').style.fill = `rgb(${red}, ${green}, ${blue})`
     document.getElementById('achievementPercentage').textContent = `${roundedPercent}%`
     if (roundedPercent === 100) {
         setProgress(complete / (complete + incomplete))
         circle.style.stroke = 'url(#gold)'
         circle.style.animation = 'goldGlowRing 5s linear 0s infinite forwards'
+        document.getElementById('achievementPercentage').style.fill = 'rgb(255, 140, 0)'
         setTimeout(() => {
             const [complete, incomplete] = state.achievementsRatio
             const roundedPercentCheck = Math.round((complete / (complete + incomplete) * 100))
