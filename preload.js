@@ -469,8 +469,8 @@ const renderAchievementsPane = () => {
         achivementNameElement.classList.add('achievementLinkName')
     })
 
-    const [complete, incomplete] = state.achievementsRatio
-    // if (state.selectedGame.appid === 960090) { [complete, incomplete] = [100, 0] } // use if testing animations
+    let [complete, incomplete] = state.achievementsRatio
+    if (state.selectedGame.appid === 960090) { [complete, incomplete] = [100, 0] } // use if testing animations
     document.getElementById('achievementsTitle').innerText = `Achievements - ${complete} of ${complete + incomplete} Completed`
     document.getElementById('achievementsSubTitle').innerText = `${incomplete} Achievements Left`
 
@@ -488,7 +488,8 @@ const renderAchievementsPane = () => {
         circle.style.animation = 'goldGlowRing 5s linear 0s infinite forwards'
         document.getElementById('achievementPercentage').style.fill = 'rgb(255, 120, 0)'
         setTimeout(() => {
-            const [complete, incomplete] = state.achievementsRatio
+            let [complete, incomplete] = state.achievementsRatio
+            if (state.selectedGame.appid === 960090) { [complete, incomplete] = [100, 0] } // use if testing animations
             const roundedPercentCheck = Math.round((complete / (complete + incomplete) * 100))
             if (roundedPercentCheck === 100) {
                 circle.style.strokeDashoffset = 'none'

@@ -594,21 +594,17 @@ body {
         filter: drop-shadow( 0px 0px 10px rgba(255, 166, 0, 1));
         transform: rotate(-90deg);
     }
-    20% {
+    25% {
         filter: drop-shadow( 0px 0px 10px rgba(255, 166, 0, 0));
-        transform: rotate(-18deg);
+        transform: rotate(0deg);
     }
-    40% {
+    50% {
         filter: drop-shadow( 0px 0px 10px rgba(255, 166, 0, 1));
-        transform: rotate(54deg);
+        transform: rotate(90deg);
     }
-    60% {
-        filter: drop-shadow( 0px 0px 10px rgba(255, 166, 0, 1));
-        transform: rotate(126deg);
-    }
-    80% {
+    75% {
         filter: drop-shadow( 0px 0px 10px rgba(255, 166, 0, 0));
-        transform: rotate(198deg);
+        transform: rotate(180deg);
     }
     100% {
         filter: drop-shadow( 0px 0px 10px rgba(255, 166, 0, 1));
