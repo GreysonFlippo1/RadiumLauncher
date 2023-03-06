@@ -242,7 +242,6 @@ body {
     height: 50px;
     background-color: rgba(0,0,0,0.5);
     background-image: linear-gradient(90deg, rgba(201, 54, 209, 0.9) 0%, rgba(229, 94, 45, 0.9) 100%);
-    backdrop-filter: blur(10px);
     border-radius: 15px;
     color: #fff;
     font-family: Tahoma, sans-serif;
