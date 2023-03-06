@@ -427,7 +427,9 @@ const renderAchievementsPane = () => {
         document.getElementById('achievementsSubTitle').innerText = `${incomplete} Achievements Left`
         document.getElementById('achievementPercentage').textContent = '0%'
         document.getElementById('achievementPercentage').style.fill = 'rgb(201, 54, 209)'
-
+        document.getElementById('playButton').classList.remove('goldenPlayButton')
+        document.getElementById('playButton').classList.add('playButtonbg')
+        
         setProgress(0)
         return false
     }
@@ -469,8 +471,8 @@ const renderAchievementsPane = () => {
         achivementNameElement.classList.add('achievementLinkName')
     })
 
-    let [complete, incomplete] = state.achievementsRatio
-    if (state.selectedGame.appid === 960090) { [complete, incomplete] = [100, 0] } // use if testing animations
+    const [complete, incomplete] = state.achievementsRatio
+    // if (state.selectedGame.appid === 960090) { [complete, incomplete] = [100, 0] } // use if testing animations
     document.getElementById('achievementsTitle').innerText = `Achievements - ${complete} of ${complete + incomplete} Completed`
     document.getElementById('achievementsSubTitle').innerText = `${incomplete} Achievements Left`
 
@@ -487,9 +489,11 @@ const renderAchievementsPane = () => {
         circle.style.stroke = 'url(#gold)'
         circle.style.animation = 'goldGlowRing 5s linear 0s infinite forwards'
         document.getElementById('achievementPercentage').style.fill = 'rgb(255, 120, 0)'
+        document.getElementById('playButton').classList.add('goldenPlayButton')
+        document.getElementById('playButton').classList.remove('playButtonbg')
         setTimeout(() => {
-            let [complete, incomplete] = state.achievementsRatio
-            if (state.selectedGame.appid === 960090) { [complete, incomplete] = [100, 0] } // use if testing animations
+            const [complete, incomplete] = state.achievementsRatio
+            // if (state.selectedGame.appid === 960090) { [complete, incomplete] = [100, 0] } // use if testing animations
             const roundedPercentCheck = Math.round((complete / (complete + incomplete) * 100))
             if (roundedPercentCheck === 100) {
                 circle.style.strokeDashoffset = 'none'
@@ -499,9 +503,10 @@ const renderAchievementsPane = () => {
     } else {
         circle.style.stroke = 'url(#gradient)'
         circle.style.animation = 'none'
+        document.getElementById('playButton').classList.remove('goldenPlayButton')
+        document.getElementById('playButton').classList.add('playButtonbg')
         setProgress(complete / (complete + incomplete))
     }
-
 }
 
 const renderQuickDetailsPane = () => {
