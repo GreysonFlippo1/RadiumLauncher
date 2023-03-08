@@ -200,7 +200,7 @@ body {
 
 /* change to favorites later, needs change in preload.js */
 #filter {
-    background-image: url('./icons/Search_Icon.png');
+    background-image: url('./icons/Favorites_Icon.png');
 }
 
 .activeFilter {
@@ -245,7 +245,7 @@ body {
     height: 100%;
     top: 0px;
     left: 0px;
-    background-color: rgba(39, 39, 39, 0.8);
+    background-color: rgba(39, 39, 39, 0.7);
 }
 
 #gameBanner {
@@ -888,7 +888,7 @@ body {
     }
 
     #backgroundFilter {
-        background-color: rgba(199, 199, 199, 0.5);
+        background-color: rgba(199, 199, 199, 0.6);
     }
 
     .pane {
