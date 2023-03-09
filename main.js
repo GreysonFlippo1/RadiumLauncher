@@ -75,6 +75,16 @@ let contents
 //   shell.openPath(path.join(path, appName))
 // }
 
+ipcMain.handle('save-user-data', async (event, fileName, json) => {
+  const path = app.getPath('userData')
+  try {
+    fs.writeFileSync(`${path}/${fileName}`, json, 'utf-8')
+  } catch (e) {
+    return e
+  }
+  return 'success'
+})
+
 ipcMain.handle('runApp', async (event, arg) => {
   // + '/steamapps/common/'
   // do stuff
@@ -105,9 +115,23 @@ const createWindow = () => {
 
   contents.on('did-finish-load', () => {
     fs.readFile(STEAM_LIBRARY, 'utf8', function (err, data) {
-      if (err) return console.log(err)
-      const json = vdfplus.parse(data)
-      contents.send('steamAppFolders', json)
+      if (err) {
+        console.log(err)
+      } else {
+        const json = vdfplus.parse(data)
+        contents.send('steamAppFolders', json)
+      }
+    })
+
+    const path = app.getPath('userData')
+    fs.readFile(`${path}/user-settings.json`, 'utf8', function (err, data) {
+      if (err) {
+        fs.writeFileSync(`${path}/user-settings.json`, '{}', 'utf-8')
+        contents.send('userData', {})
+      } else {
+        const json = JSON.parse(data)
+        contents.send('userData', json)
+      }
     })
   })
 

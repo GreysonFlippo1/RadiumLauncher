@@ -21,13 +21,32 @@ const state = {
     selectedGameInfo: {},
     achievements: [],
     achievementsRatio: [0, 0], // complete, incomplete
-    friends: []
+    friends: [],
+    savedData: {},
+    defaultSettings: {
+        theme: 'system'
+    }
 }
+
+ipcRenderer.on('userData', function (event, data) {
+    state.savedData = { ...state.defaultSettings, ...data }
+
+    console.log(saveUserData())
+})
 
 ipcRenderer.on('steamAppFolders', function (event, data) {
     state.libraryfolders = data.libraryfolders
     getInstalledGames()
 })
+
+const saveUserData = () => {
+    const jsonData = JSON.stringify(state.savedData)
+    ipcRenderer.invoke('save-user-data', 'user-settings.json', jsonData).then(
+        result => {
+            console.log(result)
+        }
+    )
+}
 
 const getInstalledGames = (appid) => {
     const folders = Object.keys(state.libraryfolders)
