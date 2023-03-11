@@ -25,13 +25,14 @@ const state = {
     savedData: {},
     defaultSettings: {
         theme: 'system',
-        favorites: [], // array of appids
+        favorites: [],
         sort: 'chronological'
     }
 }
 
 ipcRenderer.on('userData', function (event, data) {
     state.savedData = { ...state.defaultSettings, ...data }
+    // saveUserData() //save on load
 })
 
 ipcRenderer.on('steamAppFolders', function (event, data) {
@@ -46,8 +47,6 @@ const saveUserData = () => {
         }
     )
 }
-
-// saveUserData()
 
 const getInstalledGames = (appid) => {
     const folders = Object.keys(state.libraryfolders)
