@@ -80,6 +80,7 @@ const getGames = () => {
     makeRequest('GET', url, (game) => {
         const games = JSON.parse(game)
         state.games = games.response.games
+        state.sort = state.savedData.sort
         renderGamesList('sort', state.sort)
     })
 }
@@ -174,6 +175,11 @@ const renderGamesList = (method, pick) => {
                 }
                 return 0
             })
+        }
+
+        if (pick !== 'searchIndex') {
+            state.savedData.sort = pick
+            saveUserData()
         }
     }
 
@@ -318,7 +324,14 @@ const renderGameTab = (game) => {
         } else {
             playText.innerText = 'PLAY'
             playIcon.style.display = 'block'
-            document.getElementById('playButton').addEventListener('click', () => { launchGame() })
+        }
+
+        const favoriteGameBttn = document.getElementById('favoriteGame')
+
+        if (state.savedData.favorites.includes(game.appid)) {
+            favoriteGameBttn.classList.remove('unfavorited')
+        } else {
+            favoriteGameBttn.classList.add('unfavorited')
         }
     
         backgroundBlur.style.backgroundImage = `url("https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/library_hero.jpg")`
@@ -344,6 +357,22 @@ const launchGame = (appid = state.selectedGame.appid, args = '') => {
         window.location.href = `steam://run/${appid}/${args}`
         // steam://run/${appid}/${args}
     })()
+}
+
+const favoriteGame = (appid = state.selectedGame.appid) => {
+    let favorites = [...state.savedData.favorites]
+    if (favorites.includes(appid)) {
+        favorites = favorites.filter(id => id !== appid)
+        document.getElementById('favoriteGame').classList.add('unfavorited')
+    } else {
+        favorites[favorites.length] = appid
+        document.getElementById('favoriteGame').classList.remove('unfavorited')
+    }
+    state.savedData.favorites = favorites
+    if (state.sort === 'favorite') {
+        renderGamesList('sort', 'favorite')
+    }
+    saveUserData()
 }
 
 const getFriends = () => {
@@ -722,9 +751,18 @@ const getImageFromDescription = (description) => {
 
 }
 
+const setStaticButtons = () => {
+    const playBttn = document.getElementById('playButton')
+    playBttn.addEventListener('click', () => { launchGame() })
+
+    const favoriteGameBttn = document.getElementById('favoriteGame')
+    favoriteGameBttn.addEventListener('click', () => { favoriteGame() })
+}
+
 window.addEventListener('DOMContentLoaded', () => {
 
     getGames()
     setFilterButtons()
+    setStaticButtons()
 
 })

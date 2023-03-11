@@ -319,6 +319,36 @@ body {
     line-height: 46px;
 }
 
+#favoriteGame {
+    position: absolute;
+    bottom: 20px;
+    left: 255px;
+    width: 48px;
+    height: 48px;
+    border-radius: 15px;
+    background-size: 45% 45%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-image: url('./icons/Favorites_Icon.png');
+    background-color: rgba(10,10,10,0.8);
+    backdrop-filter: blur(10px);
+    box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.43);
+    border: 2px solid rgba(255,255,255,0.1)
+}
+
+#favoriteGame:hover {
+    filter: brightness(90%);
+    cursor: pointer;
+}
+
+.unfavorited:hover {
+    filter: brightness(90%) saturate(0%) !important;
+}
+
+.unfavorited {
+    filter: saturate(0%);
+}
+
 #gameTitleShadow {
     position:absolute;
     bottom: 0px;
@@ -931,6 +961,11 @@ body {
 
     #playButton {
         background-color: #fff;
+    }
+    
+    #favoriteGame {
+        background-color: rgba(255,255,255,0.8);
+        border: 2px solid rgba(0,0,0,0.1)
     }
 
     .paneTitle {
