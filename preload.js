@@ -150,10 +150,10 @@ const renderGamesList = (method, pick) => {
             sort3.classList.add('activeFilter')
             // shownGames = []
             const favoritedGames = shownGames.filter(g => state.savedData.favorites.includes(g.appid)).sort((a, b) => {
-                if (a.playtime_forever < b.playtime_forever) {
+                if ((a.playtime_2weeks ?? 0) < (b.playtime_2weeks ?? 0)) {
                     return 1
                 }
-                if (a.playtime_forever > b.playtime_forever) {
+                if ((a.playtime_2weeks ?? 0) > (b.playtime_2weeks ?? 0)) {
                     return -1
                 }
                 return 0
