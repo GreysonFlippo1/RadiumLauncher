@@ -24,14 +24,14 @@ const state = {
     friends: [],
     savedData: {},
     defaultSettings: {
-        theme: 'system'
+        theme: 'system',
+        favorites: [], // array of appids
+        sort: 'chronological'
     }
 }
 
 ipcRenderer.on('userData', function (event, data) {
     state.savedData = { ...state.defaultSettings, ...data }
-
-    console.log(saveUserData())
 })
 
 ipcRenderer.on('steamAppFolders', function (event, data) {
@@ -43,10 +43,11 @@ const saveUserData = () => {
     const jsonData = JSON.stringify(state.savedData)
     ipcRenderer.invoke('save-user-data', 'user-settings.json', jsonData).then(
         result => {
-            console.log(result)
         }
     )
 }
+
+// saveUserData()
 
 const getInstalledGames = (appid) => {
     const folders = Object.keys(state.libraryfolders)
@@ -86,10 +87,12 @@ const getGames = () => {
 
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
+const timeDividers = [100000000, 20000, 10000, 5000, 1000, 500, 250, 100, 50, 20, 10, 5, 1, 0]
+
 const renderGamesList = (method, pick) => {
     const sort1 = document.getElementById('chronological')
     const sort2 = document.getElementById('alphabetic')
-    const sort3 = document.getElementById('filter')
+    const sort3 = document.getElementById('favorite')
     
     let shownGames = [...state.games]
 
@@ -138,10 +141,31 @@ const renderGamesList = (method, pick) => {
                 }
                 return 0
             })
-        } else if (pick === 'searchIndex') {
+        } else if (pick === 'favorite') {
+            // faves
+            // playtime in last 2 weeks
+            // playtime all time
             sort1.classList.remove('activeFilter')
             sort2.classList.remove('activeFilter')
             sort3.classList.add('activeFilter')
+            // shownGames = []
+            const favoritedGames = shownGames.filter(g => state.savedData.favorites.includes(g.appid))
+            const unfavoritedGames = shownGames.filter(g => (!state.savedData.favorites.includes(g.appid) && g.playtime_forever)).sort((a, b) => {
+                if (a.playtime_forever < b.playtime_forever) {
+                    return 1
+                }
+                if (a.playtime_forever > b.playtime_forever) {
+                    return -1
+                }
+                return 0
+            })
+
+            shownGames = [...favoritedGames, ...unfavoritedGames]
+
+        } else if (pick === 'searchIndex') {
+            sort1.classList.remove('activeFilter')
+            sort2.classList.remove('activeFilter')
+            sort3.classList.remove('activeFilter')
             shownGames = shownGames.sort((a, b) => {
                 if (a.searchIndex < b.searchIndex) {
                     return -1
@@ -177,7 +201,9 @@ const renderGamesList = (method, pick) => {
         dividerElement.classList.add('listDivider')
     }
 
-    shownGames.forEach(game => {
+    let currentTimeDivider = 0
+
+    shownGames.forEach((game, i) => {
 
       if (pick === 'chronological') {
         const gameDate = new Date(game.rtime_last_played * 1000)
@@ -193,6 +219,27 @@ const renderGamesList = (method, pick) => {
             createDivider(`${gameMonth}${gameYear}`, months[gameMonth])
         } else if (gameYear === currentYear && gameMonth === currentMonth) {
             createDivider(`${gameMonth}${gameYear}`, 'Recent')
+        }
+      }
+
+      if (pick === 'favorite') {
+        if (i === 0 && state.savedData.favorites.length) {
+            createDivider('favoritesDivider', 'Favorites')
+        }
+        if (i >= state.savedData.favorites.length) {
+            const gamePlaytime = Math.round(game.playtime_forever / 60)
+            let j = 0
+            while (gamePlaytime < timeDividers[j]) {
+                j++
+            }
+            if (j !== currentTimeDivider) {
+                currentTimeDivider = j
+                if (timeDividers[j] === 0) {
+                    createDivider(`favoritesDivider${j}`, 'Less than 1 Hour')
+                } else {
+                    createDivider(`favoritesDivider${j}`, `${timeDividers[j]}+ Hours`)
+                }
+            }
         }
       }
   
@@ -232,9 +279,11 @@ const renderGamesList = (method, pick) => {
 const setFilterButtons = () => {
     const sort1 = document.getElementById('chronological')
     const sort2 = document.getElementById('alphabetic')
+    const sort3 = document.getElementById('favorite')
 
     sort1.addEventListener('click', () => { renderGamesList('sort', 'chronological') })
     sort2.addEventListener('click', () => { renderGamesList('sort', 'alphabetic') })
+    sort3.addEventListener('click', () => { renderGamesList('sort', 'favorite') })
 
     const textFilter = document.getElementById('textFilter')
     textFilter.addEventListener('input', (e) => { renderGamesList('filter', e.target.value) })

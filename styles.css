@@ -199,7 +199,7 @@ body {
 }
 
 /* change to favorites later, needs change in preload.js */
-#filter {
+#favorite {
     background-image: url('./icons/Favorites_Icon.png');
 }
 
