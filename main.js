@@ -133,6 +133,16 @@ const createWindow = () => {
         contents.send('userData', json)
       }
     })
+
+    fs.readFile(`${path}/cached-requests.json`, 'utf8', function (err, data) {
+      if (err) {
+        fs.writeFileSync(`${path}/cached-requests.json`, '{}', 'utf-8')
+        contents.send('cachedRequests', {})
+      } else {
+        const json = JSON.parse(data)
+        contents.send('cachedRequests', json)
+      }
+    })
   })
 
   const menu = Menu.buildFromTemplate(template)

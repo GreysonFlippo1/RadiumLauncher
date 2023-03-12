@@ -27,12 +27,24 @@ const state = {
         theme: 'system',
         favorites: [],
         sort: 'chronological'
-    }
+    },
+    cachedRequests: {},
+    domLoaded: false,
+    cacheFilesFetched: false,
+    settingsLoaded: false,
+    init: false
 }
 
 ipcRenderer.on('userData', function (event, data) {
     state.savedData = { ...state.defaultSettings, ...data }
-    // saveUserData() //save on load
+    state.settingsLoaded = true
+    init()
+})
+
+ipcRenderer.on('cachedRequests', function (event, data) {
+    state.cachedRequests = { ...state.cachedRequests, ...data }
+    state.cacheFilesFetched = true
+    init()
 })
 
 ipcRenderer.on('steamAppFolders', function (event, data) {
@@ -43,6 +55,14 @@ ipcRenderer.on('steamAppFolders', function (event, data) {
 const saveUserData = () => {
     const jsonData = JSON.stringify(state.savedData)
     ipcRenderer.invoke('save-user-data', 'user-settings.json', jsonData).then(
+        result => {
+        }
+    )
+}
+
+const saveCachedData = () => {
+    const jsonData = JSON.stringify(state.cachedRequests)
+    ipcRenderer.invoke('save-user-data', 'cached-requests.json', jsonData).then(
         result => {
         }
     )
@@ -64,15 +84,30 @@ const getInstalledGames = (appid) => {
     return foundDirectory
 }
 
-const makeRequest = (action, url, after) => {
-    const http = new XMLHttpRequest()
-    http.onreadystatechange = function () {
-        if (this.readyState === 4 && (this.status === 200 || this.status === 400)) {
-            after(this.response)
+const makeRequest = (action, url, next, cache = false) => {
+    const cacheExpire = 3600000 // 1 hour
+
+    const date = new Date()
+    const currentTime = date.getTime()
+    if (cache && state.cachedRequests[url]?.expires > currentTime) {
+        next(state.cachedRequests[url].response)
+    } else {
+        const http = new XMLHttpRequest()
+        http.onreadystatechange = function () {
+            if (this.readyState === 4 && (this.status === 200 || this.status === 400)) {
+                if (cache) {
+                    state.cachedRequests[url] = {
+                        response: this.response,
+                        expires: currentTime + cacheExpire
+                    }
+                    saveCachedData()
+                }
+                next(this.response)
+            }
         }
+        http.open(action, url, true)
+        http.send()
     }
-    http.open(action, url, true)
-    http.send()
 }
 
 const getGames = () => {
@@ -82,7 +117,7 @@ const getGames = () => {
         state.games = games.response.games
         state.sort = state.savedData.sort
         renderGamesList('sort', state.sort)
-    })
+    }, true)
 }
 
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -317,7 +352,7 @@ const renderGameTab = (game) => {
             state.selectedGameInfo = { ...state.selectedGame, ...state.selectedGameInfo[game.appid].data }
             renderGameTab(game)
             getAchievements(game.appid)
-        })
+        }, true)
     } else {
         const backgroundBlur = document.getElementById('backgroundImage')
         const gameBanner = document.getElementById('gameBanner')
@@ -389,7 +424,7 @@ const getFriends = () => {
         const response = JSON.parse(res)
         state.friends = response.friendslist.friends
         getFriendsInfo()
-    })
+    }, true)
 }
 
 const getFriendsInfo = () => {
@@ -406,7 +441,7 @@ const getFriendsInfo = () => {
         // only loses friends_sice property
         state.friends = response.response.players
         RenderFriendsPane()
-    })
+    }, false)
 }
 
 const RenderFriendsPane = () => {
@@ -474,7 +509,7 @@ const getAchievements = (appid) => {
         } else {
             renderAchievementsPane()
         }
-    })
+    }, true)
 }
 
 const getAchievementsInfo = () => {
@@ -487,7 +522,7 @@ const getAchievementsInfo = () => {
             state.achievements[i] = { ...achievement, ...achievementInfo }
         })
         getGlobalAchievmentStats()
-    })
+    }, true)
 }
 
 const getGlobalAchievmentStats = () => {
@@ -500,7 +535,7 @@ const getGlobalAchievmentStats = () => {
             state.achievements[i] = { ...achievement, ...achievementInfo }
         })
         renderAchievementsPane()
-    })
+    }, true)
 }
 
 const renderAchievementsPane = () => {
@@ -707,7 +742,7 @@ const renderDeveloperUpdatesPane = () => {
         const post2Day = post2Date.getDate()
         document.getElementById('noteTitle2').innerHTML = `${newsItems[1].title} • <span>${months[post2Month]} ${post2Day}, ${post2Year}</span>`
 
-    })
+    }, true)
 }
 
 const getImageFromDescription = (description) => {
@@ -767,10 +802,18 @@ const setStaticButtons = () => {
     favoriteGameBttn.addEventListener('click', () => { favoriteGame() })
 }
 
+const init = () => {
+    if (state.domLoaded && state.cacheFilesFetched && state.settingsLoaded && !state.init) {
+        state.init = true
+        getGames()
+        setFilterButtons()
+        setStaticButtons()
+    }
+}
+
 window.addEventListener('DOMContentLoaded', () => {
 
-    getGames()
-    setFilterButtons()
-    setStaticButtons()
+    state.domLoaded = true
+    init()
 
 })
