@@ -439,7 +439,11 @@ const getFriendsInfo = () => {
     makeRequest('GET', url, (res) => {
         const response = JSON.parse(res)
         // only loses friends_sice property
-        state.friends = response.response.players
+        const friendsInfo = response.response.players
+        state.friends.forEach((friend, i) => {
+            const friendInfo = friendsInfo.find(a => a.steamid === friend.steamid) ?? {}
+            state.friends[i] = { ...friend, ...friendInfo }
+        })
         RenderFriendsPane()
     }, false)
 }
