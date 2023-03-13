@@ -127,10 +127,10 @@ const createWindow = () => {
     fs.readFile(`${path}/user-settings.json`, 'utf8', function (err, data) {
       if (err) {
         fs.writeFileSync(`${path}/user-settings.json`, '{}', 'utf-8')
-        contents.send('userData', {})
+        contents.send('userSettings', {})
       } else {
         const json = JSON.parse(data)
-        contents.send('userData', json)
+        contents.send('userSettings', json)
       }
     })
 

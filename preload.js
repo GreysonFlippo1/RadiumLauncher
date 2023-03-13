@@ -35,7 +35,7 @@ const state = {
     init: false
 }
 
-ipcRenderer.on('userData', function (event, data) {
+ipcRenderer.on('userSettings', function (event, data) {
     state.savedData = { ...state.defaultSettings, ...data }
     state.settingsLoaded = true
     init()
