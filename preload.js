@@ -71,9 +71,10 @@ const saveCachedData = () => {
 const getInstalledGames = (appid) => {
     const folders = Object.keys(state.libraryfolders)
     let foundDirectory = ''
+    state.installedGames = []
     folders.forEach(folder => {
         const appids = Object.keys(state.libraryfolders[folder].apps)
-        state.installedGames = [...appids]
+        state.installedGames = [...state.installedGames, ...appids]
         if (appid) {
             // eslint-disable-next-line eqeqeq
             if (appids.find(g => g == appid)) {
