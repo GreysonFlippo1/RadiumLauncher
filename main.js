@@ -101,6 +101,14 @@ ipcMain.handle('runApp', async (event, arg) => {
   shell.openPath(path.join(arg))
 })
 
+ipcMain.handle('getLocalAppData', async (event, arg) => {
+  fs.readFile(arg[0] + `/steamapps/appmanifest_${arg[1]}.acf`, 'utf8', function (err, data) {
+    if (err) return err
+    const json = vdfplus.parse(data)
+    contents.send('getLocalAppData', json)
+  })
+})
+
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({

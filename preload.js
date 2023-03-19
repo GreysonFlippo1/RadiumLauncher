@@ -60,6 +60,10 @@ ipcRenderer.on('steamAppFolders', function (event, data) {
     getInstalledGames()
 })
 
+ipcRenderer.on('getLocalAppData', function (event, data) {
+    state.selectedGameInfo.localInfo = data
+})
+
 const saveUserData = () => {
     const jsonData = JSON.stringify(state.savedData)
     ipcRenderer.invoke('save-user-data', 'user-settings.json', jsonData).then(
@@ -380,6 +384,7 @@ const renderGameTab = (game) => {
         } else {
             playText.innerText = 'PLAY'
             playIcon.style.display = 'block'
+            getLocalGameData()
         }
 
         const favoriteGameBttn = document.getElementById('favoriteGame')
@@ -399,6 +404,11 @@ const renderGameTab = (game) => {
         renderDeveloperUpdatesPane()
     }
 
+}
+
+const getLocalGameData = () => {
+    const foundDirectory = getInstalledGames(state.selectedGame.appid)
+    ipcRenderer.invoke('getLocalAppData', [foundDirectory, state.selectedGame.appid])
 }
 
 const launchGame = (appid = state.selectedGame.appid) => {
