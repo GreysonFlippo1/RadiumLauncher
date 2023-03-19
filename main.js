@@ -89,15 +89,16 @@ ipcMain.handle('runApp', async (event, arg) => {
   // + '/steamapps/common/'
   // do stuff
   // await awaitableProcess();
-  fs.readFile(arg[0] + `/steamapps/appmanifest_${arg[1]}.acf`, 'utf8', function (err, data) {
-    if (err) return err
-    const json = vdfplus.parse(data)
-    const installdir = json.AppState.installdir
-    const fullPath = arg[0] + '/steamapps/common/' + installdir
-    const appName = installdir + '.app'
-    shell.openPath(path.join(fullPath, appName))
-    return true
-  })
+  // fs.readFile(arg[0] + `/steamapps/appmanifest_${arg[1]}.acf`, 'utf8', function (err, data) {
+  //   if (err) return err
+  //   const json = vdfplus.parse(data)
+  //   const installdir = json.AppState.installdir
+  //   const fullPath = arg[0] + '/steamapps/common/' + installdir
+  //   const appName = installdir + '.app'
+  //   shell.openPath(path.join(fullPath, appName))
+  //   return true
+  // })
+  shell.openPath(path.join(arg))
 })
 
 const createWindow = () => {

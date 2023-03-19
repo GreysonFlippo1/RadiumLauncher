@@ -26,7 +26,15 @@ const state = {
     defaultSettings: {
         theme: 'system',
         favorites: [],
-        sort: 'chronological'
+        sort: 'chronological',
+        gamesSettings: {
+            default: {
+                args: '',
+                run_without_steam: false,
+                steamless_binary: '',
+                start_in_big_picture: false
+            }
+        }
     },
     cachedRequests: {},
     domLoaded: false,
@@ -346,6 +354,10 @@ const renderGameTab = (game) => {
     state.selectedGame = game
     state.tab = 'game'
 
+    if (!state.savedData.gamesSettings[state.selectedGame.appid]) {
+        state.savedData.gamesSettings[state.selectedGame.appid] = { ...state.defaultSettings.gamesSettings.default }
+    }
+
     if (!state.selectedGameInfo.appid || state.selectedGameInfo.appid !== state.selectedGame.appid) {
         const url = `http://store.steampowered.com/api/appdetails?appids=${game.appid}&language=English`
         makeRequest('GET', url, (selectedGameInfo) => {
@@ -389,7 +401,7 @@ const renderGameTab = (game) => {
 
 }
 
-const launchGame = (appid = state.selectedGame.appid, args = '') => {
+const launchGame = (appid = state.selectedGame.appid) => {
     (async () => {
         // const foundDirectory = getInstalledGames(appid)
         // + '/steamapps/common/'
@@ -397,8 +409,20 @@ const launchGame = (appid = state.selectedGame.appid, args = '') => {
         // const result = await ipcRenderer.invoke('runApp', [foundDirectory, appid])
         // console.log(result)
 
+        const gameSettings = state.savedData.gamesSettings[appid]
+
+        if (gameSettings.run_without_steam && gameSettings.steamless_binary) {
+            await ipcRenderer.invoke('runApp', gameSettings.steamless_binary)
+        } else {
+            if (gameSettings.args) {
+                window.location.href = `steam://run/${appid}//${gameSettings.args}/`
+            } else {
+                window.location.href = `steam://rungameid/${appid}`
+            }
+        }
+
         // basically the same as before - requires steamapp to be running to launch game
-        window.location.href = `steam://run/${appid}//${args}`
+        // window.location.href = `steam://run/${appid}//${gameSettings.args}`
         // steam://run/${appid}/${args}
     })()
 }
