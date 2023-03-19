@@ -571,6 +571,7 @@ body {
     transition: stroke-dashoffset 1s ease;
     transform: rotate(-90deg);
     transform-origin: 50% 50%;
+    stroke-linecap: round;
 }
 
 .achievementsSubTitle {

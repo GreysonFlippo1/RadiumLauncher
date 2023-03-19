@@ -398,7 +398,7 @@ const launchGame = (appid = state.selectedGame.appid, args = '') => {
         // console.log(result)
 
         // basically the same as before - requires steamapp to be running to launch game
-        window.location.href = `steam://run/${appid}/${args}`
+        window.location.href = `steam://run/${appid}//${args}`
         // steam://run/${appid}/${args}
     })()
 }
