@@ -71,11 +71,6 @@ const template = [
 
 let contents
 
-// const runApp = (path, appName) => {
-//   // shell.openPath(path.join('/Users/greysonflippo/Library/Application Support/Steam/steamapps/common/BloonsTD6', 'BloonsTD6.app'))
-//   shell.openPath(path.join(path, appName))
-// }
-
 ipcMain.handle('save-user-data', async (event, fileName, json) => {
   const path = app.getPath('userData')
   try {
@@ -87,18 +82,6 @@ ipcMain.handle('save-user-data', async (event, fileName, json) => {
 })
 
 ipcMain.handle('runApp', async (event, arg) => {
-  // + '/steamapps/common/'
-  // do stuff
-  // await awaitableProcess();
-  // fs.readFile(arg[0] + `/steamapps/appmanifest_${arg[1]}.acf`, 'utf8', function (err, data) {
-  //   if (err) return err
-  //   const json = vdfplus.parse(data)
-  //   const installdir = json.AppState.installdir
-  //   const fullPath = arg[0] + '/steamapps/common/' + installdir
-  //   const appName = installdir + '.app'
-  //   shell.openPath(path.join(fullPath, appName))
-  //   return true
-  // })
   shell.openPath(path.join(arg))
 })
 
@@ -108,6 +91,17 @@ ipcMain.handle('getLocalAppData', async (event, arg) => {
     const json = vdfplus.parse(data)
     contents.send('getLocalAppData', json)
   })
+})
+
+ipcMain.handle('createVdf', async (event, path, json) => {
+  try {
+    const fileName = `appmanifest_${json.AppState.appid}.acf`
+    const vdfData = vdfplus.stringify(json)
+    fs.writeFileSync(`${path}/steamapps/${fileName}`, vdfData, 'utf-8')
+  } catch (e) {
+    return e
+  }
+  return 'success'
 })
 
 const createWindow = () => {

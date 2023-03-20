@@ -32,7 +32,8 @@ const state = {
                 args: '',
                 run_without_steam: false,
                 steamless_binary: '',
-                start_in_big_picture: false
+                start_in_big_picture: false,
+                installdir: ''
             }
         }
     },
@@ -418,14 +419,21 @@ const getLocalGameData = () => {
     ipcRenderer.invoke('getLocalAppData', [foundDirectory, state.selectedGame.appid])
 }
 
+const playButtonEvent = () => {
+            // eslint-disable-next-line eqeqeq
+            if (!state.installedGames.find(g => g == state.selectedGame.appid)) {
+                if (state.selectedGameInfo.platforms[PLATFORM]) {
+                    installGame()
+                } else {
+                    // console.log('Game is not supported on this platform')
+                }
+            } else {
+                launchGame()
+            }
+}
+
 const launchGame = (appid = state.selectedGame.appid) => {
     (async () => {
-        // const foundDirectory = getInstalledGames(appid)
-        // + '/steamapps/common/'
-        // console.log(foundDirectory, state)
-        // const result = await ipcRenderer.invoke('runApp', [foundDirectory, appid])
-        // console.log(result)
-
         const gameSettings = state.savedData.gamesSettings[appid]
 
         if (gameSettings.run_without_steam && gameSettings.steamless_binary) {
@@ -437,11 +445,42 @@ const launchGame = (appid = state.selectedGame.appid) => {
                 window.location.href = `steam://rungameid/${appid}`
             }
         }
-
-        // basically the same as before - requires steamapp to be running to launch game
-        // window.location.href = `steam://run/${appid}//${gameSettings.args}`
-        // steam://run/${appid}/${args}
     })()
+}
+
+const convertToValidFilename = (string) => {
+    // eslint-disable-next-line no-useless-escape
+    return (string.replace(/[\/|\\:*?"<>]/g, ' '))
+}
+
+const createDefaultAcf = () => {
+    return {
+        AppState: {
+            UserConfig: {
+                language: 'english'
+            },
+            appid: state.selectedGame.appid,
+            gameid: state.selectedGame.appid,
+            name: convertToValidFilename(state.selectedGameInfo.name),
+            installdir: convertToValidFilename(state.selectedGameInfo.name),
+            Universe: '1',
+            StateFlags: '1'
+        }
+    }
+}
+
+const installGame = (createAcf = false) => {
+    if (createAcf) {
+        const defaultAcf = createDefaultAcf()
+        const installdir = state.savedData.gamesSettings[state.selectedGame.appid].installdir || state.libraryfolders[0].path
+        ipcRenderer.invoke('createVdf', installdir, defaultAcf).then(
+            result => {
+                window.location.href = `steam://install/${state.selectedGame.appid}`
+            }
+        )
+    } else {
+        window.location.href = `steam://install/${state.selectedGame.appid}`
+    }
 }
 
 const favoriteGame = (appid = state.selectedGame.appid) => {
@@ -842,7 +881,7 @@ const getImageFromDescription = (description) => {
 
 const setStaticButtons = () => {
     const playBttn = document.getElementById('playButton')
-    playBttn.addEventListener('click', () => { launchGame() })
+    playBttn.addEventListener('click', () => { playButtonEvent() })
 
     const favoriteGameBttn = document.getElementById('favoriteGame')
     favoriteGameBttn.addEventListener('click', () => { favoriteGame() })
