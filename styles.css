@@ -286,6 +286,11 @@ body {
     backdrop-filter: blur(10px);
 }
 
+.playButtonDisabled {
+    filter: brightness(50%) !important;
+    cursor: not-allowed !important;
+}
+
 .goldenPlayButton {
     animation: goldPlayButtonAnimation 5s linear 0s infinite reverse;
     box-shadow: 0px 0px 5px 1px rgba(255, 166, 0, 1) !important;

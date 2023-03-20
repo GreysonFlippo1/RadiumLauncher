@@ -7,7 +7,7 @@
 // const fs = require('fs')
 const { ipcRenderer } = require('electron')
 
-const { STEAM_KEY, STEAM_ID } = process.env
+const { STEAM_KEY, STEAM_ID, PLATFORM } = process.env
 
 const STEAM_CLAN_IMAGE = 'https://cdn.akamai.steamstatic.com/steamcommunity/public/images/clans'
 
@@ -374,6 +374,7 @@ const renderGameTab = (game) => {
         const backgroundBlur = document.getElementById('backgroundImage')
         const gameBanner = document.getElementById('gameBanner')
         const gameTitle = document.getElementById('gameTitle')
+        const playButton = document.getElementById('playButton')
         const playText = document.getElementById('playText')
         const playIcon = document.getElementById('playIcon')
         
@@ -381,9 +382,15 @@ const renderGameTab = (game) => {
         if (!state.installedGames.find(g => g == game.appid)) {
             playText.innerText = 'INSTALL'
             playIcon.style.display = 'none'
+            if (!state.selectedGameInfo.platforms[PLATFORM]) {
+                playButton.classList.add('playButtonDisabled')
+            } else {
+                playButton.classList.remove('playButtonDisabled')
+            }
         } else {
             playText.innerText = 'PLAY'
             playIcon.style.display = 'block'
+            playButton.classList.remove('playButtonDisabled')
             getLocalGameData()
         }
 

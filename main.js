@@ -9,6 +9,7 @@ const vdfplus = require('vdfplus')
 
 process.env.STEAM_KEY = STEAM_KEY
 process.env.STEAM_ID = STEAM_ID
+process.env.PLATFORM = process.platform === 'darwin' ? 'mac' : 'windows'
 
 const isMac = process.platform === 'darwin'
 
