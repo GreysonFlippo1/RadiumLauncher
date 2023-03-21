@@ -1,5 +1,11 @@
+@font-face {
+	font-family: 'MotivaSans';
+	src: url('./MotivaSans-Regular.ttf') format('truetype');
+}
+
 body {
     background-color: #222222;
+    font-family: MotivaSans, Tahoma, sans-serif;
 }
 
 ::-webkit-scrollbar {
@@ -79,7 +85,6 @@ body {
 
 .listLabel {
     color: #fff;
-    font-family: Tahoma, sans-serif;
     margin-top: 25px;
     margin-bottom: 5px;
     width: 100%;
@@ -149,7 +154,6 @@ body {
 }
 
 .gameLinkTitle {
-    font-family: Tahoma, sans-serif;
     line-height: 30px;
     max-width: calc(100% - 47px);
     text-overflow: ellipsis;
@@ -177,7 +181,6 @@ body {
 .navItem {
     position: relative;
     color: #ccc;
-    font-family: Tahoma, sans-serif;
     font-size: 15px;
     flex: 1 1 0px;
     text-align: center;
@@ -278,7 +281,6 @@ body {
     height: 50px;
     border-radius: 15px;
     color: #fff;
-    font-family: Tahoma, sans-serif;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -371,7 +373,6 @@ body {
     height: 5px;
     font-size: 40px;
     line-height: 40px;
-    font-family: Tahoma, sans-serif;
     color: white;
     text-shadow: 0px 0px 15px rgba(0,0,0,1);
     font-weight: bold;
@@ -406,7 +407,6 @@ body {
     border-radius: 15px;
     min-width: 700px;
     margin-bottom: 14px;
-    font-family: Tahoma, sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: start;
