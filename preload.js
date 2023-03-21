@@ -33,7 +33,13 @@ const state = {
                 run_without_steam: false,
                 steamless_binary: '',
                 start_in_big_picture: false,
-                installdir: ''
+                installdir: '',
+                customDetails: {
+                    name: '',
+                    icon: '',
+                    hero: '',
+                    appid: ''
+                }
             }
         }
     },
@@ -897,6 +903,7 @@ const init = () => {
         getGames()
         setFilterButtons()
         setStaticButtons()
+        // console.log(state)
     }
 }
 
