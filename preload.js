@@ -792,6 +792,8 @@ const renderDeveloperUpdatesPane = () => {
     makeRequest('GET', url, (res) => {
         const updatesResponse = JSON.parse(res)
         const newsItems = updatesResponse?.appnews?.newsitems ?? []
+
+        console.log(newsItems)
         
         document.getElementById('update1').style.backgroundColor = 'rgba(100,100,100,0.1)'
         document.getElementById('update2').style.display = 'flex'
@@ -804,11 +806,15 @@ const renderDeveloperUpdatesPane = () => {
             document.getElementById('noteTitle1').innerText = 'No Updates'
             document.getElementById('noteDescription1').style.display = 'none'
             document.getElementById('noteImg1').style.display = 'none'
+            document.getElementById('update1').href = '#'
+            document.getElementById('update2').href = '#'
             return
         }
 
         const image1 = getImageFromDescription(newsItems[0].contents)
         const image2 = getImageFromDescription(newsItems[1].contents)
+        document.getElementById('update1').href = newsItems[0].url
+        document.getElementById('update2').href = newsItems[1].url
 
         document.getElementById('noteImg1').style.backgroundImage = `url("${image1[0]}")`
         document.getElementById('noteImg2').style.backgroundImage = `url("${image2[0]}")`

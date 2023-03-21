@@ -802,6 +802,10 @@ body {
     line-height: 28px;
 }
 
+#quickGameDetailPlatforms {
+    text-transform: capitalize;
+}
+
 .updatesArea {
     color: #ccc;
     margin-right: 40px;
@@ -823,6 +827,12 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    text-decoration: none;
+    color: #ccc;
+}
+
+.updateContainer:hover {
+    background-color: rgba(200,200,200,0.1) !important;
 }
 
 .updateContainer .updateImage {
@@ -1019,6 +1029,14 @@ body {
 
     .updatesArea {
         color: #666;
+    }
+
+    .updateContainer {
+        color: #666;
+    }
+    
+    .updateContainer:hover {
+        background-color: rgba(0,0,0,0.1) !important;
     }
 
     .notesTitle {
