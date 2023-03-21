@@ -408,8 +408,14 @@ const renderGameTab = (game) => {
         } else {
             favoriteGameBttn.classList.add('unfavorited')
         }
-    
-        backgroundBlur.style.backgroundImage = `url("https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/library_hero.jpg")`
+
+        backgroundBlur.style.transition = 'opacity .5s'
+        backgroundBlur.style.opacity = 0
+        setTimeout(() => {
+            backgroundBlur.style.transition = 'opacity 3s'
+            backgroundBlur.style.opacity = 1
+            backgroundBlur.style.backgroundImage = `url("https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/library_hero.jpg")`
+        }, 500)
         gameBanner.style.backgroundImage = `url("https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/library_hero.jpg")`
         gameTitle.innerText = state.selectedGameInfo.name
         getAchievements(game.appid)

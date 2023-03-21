@@ -1,6 +1,13 @@
 @font-face {
 	font-family: 'MotivaSans';
 	src: url('./MotivaSans-Regular.ttf') format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
+	font-family: 'MotivaSans';
+	src: url('./MotivaSans-Bold.ttf') format('truetype');
+    font-weight: bold;
 }
 
 body {
@@ -231,15 +238,18 @@ body {
 
 #backgroundImage {
     position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0px;
-    left: 0px;
+    width: 90%;
+    height: 80%;
+    top: 80px;
+    right: 10px;
     filter: blur(50px);
     background-image: linear-gradient(140deg, #ad4897 0%, #764466 50%, #9e581e 80%);
-    background-size: 90% 80%;
-    background-position: 95% 30%;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 1s;
+    border-radius: 0px 0px 200px 200px;
+    overflow: hidden;
 }
 
 #backgroundFilter {
@@ -333,7 +343,7 @@ body {
     width: 46px;
     height: 46px;
     border-radius: 15px;
-    background-size: 44% 44%;
+    background-size: 24px;
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-image: url('./icons/Favorites_Icon.png');
@@ -934,7 +944,7 @@ body {
     }
 
     #backgroundFilter {
-        background-color: rgba(199, 199, 199, 0.6);
+        background-color: rgba(220, 220, 220, 0.7);
     }
 
     .pane {
