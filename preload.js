@@ -792,8 +792,6 @@ const renderDeveloperUpdatesPane = () => {
     makeRequest('GET', url, (res) => {
         const updatesResponse = JSON.parse(res)
         const newsItems = updatesResponse?.appnews?.newsitems ?? []
-
-        console.log(newsItems)
         
         document.getElementById('update1').style.backgroundColor = 'rgba(100,100,100,0.1)'
         document.getElementById('update2').style.display = 'flex'
