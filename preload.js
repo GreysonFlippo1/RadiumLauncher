@@ -27,6 +27,7 @@ const state = {
         theme: 'system',
         favorites: [],
         sort: 'chronological',
+        selectedGame: null,
         gamesSettings: {
             default: {
                 args: '',
@@ -337,8 +338,9 @@ const renderGamesList = (method, pick) => {
     })
 
     if (!state.selectedGame.appid && shownGames.length) {
-        renderGameTab(shownGames[0])
-        const gameLink = document.getElementById('gameLink' + shownGames[0].appid)
+        const pickFirstGame = state.savedData.selectedGame || shownGames[0]
+        renderGameTab(pickFirstGame)
+        const gameLink = document.getElementById('gameLink' + pickFirstGame.appid)
         gameLink.classList.add('selectedGame')
     }
 
@@ -363,7 +365,10 @@ const renderGameTab = (game) => {
     document.getElementById('gameLink' + game.appid).classList.add('selectedGame')
 
     state.selectedGame = game
+    state.savedData.selectedGame = game
     state.tab = 'game'
+
+    saveUserData()
 
     if (!state.savedData.gamesSettings[state.selectedGame.appid]) {
         state.savedData.gamesSettings[state.selectedGame.appid] = { ...state.defaultSettings.gamesSettings.default }
