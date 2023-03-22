@@ -10,13 +10,13 @@
     font-weight: bold;
 }
 
+:root {
+    color-scheme: light dark;
+}
+
 body {
     background-color: #222222;
     font-family: MotivaSans, Tahoma, sans-serif;
-}
-
-::-webkit-scrollbar {
-    display: none;
 }
 
 #appList {
@@ -77,8 +77,8 @@ body {
 
 #scrollableList {
     position: fixed;
-    width: 312px;
-    left: 14px;
+    width: 310px;
+    left: 15px;
     top: 122px;
     height: calc(100% - 136px);
     border-radius: 7px;
@@ -88,6 +88,10 @@ body {
     flex-direction: column;
     justify-content: start;
     /* background-image: linear-gradient(rgba(201, 54, 209, 0.2) 0%, rgba(229, 94, 45, 0.2) 100%); */
+}
+
+#scrollableList::-webkit-scrollbar {
+    display: none;
 }
 
 .listLabel {
@@ -101,7 +105,7 @@ body {
 }
 
 .listDivider {
-    width: 40%;
+    width: 45%;
     height: 1px;
     /* background-color: rgba(255,255,255,0.3);
     border: 1px solid rgba(255,255,255,0.3); */
@@ -415,7 +419,7 @@ body {
     height: 365px;
     background-color: rgba(0,0,0,0.2);
     border-radius: 15px;
-    min-width: 700px;
+    min-width: 600px;
     margin-bottom: 14px;
     display: flex;
     flex-direction: column;
@@ -423,7 +427,7 @@ body {
     border: 1px solid rgba(0,0,0,0.1);
 }
 
-@media screen and (max-width: 1786px) {
+@media screen and (max-width: 1686px) {
     .pane {
         width: 100%;
     }
@@ -762,7 +766,7 @@ body {
     flex-direction: row;
     justify-content: start;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
     /* border-radius: 10px;
     background-color: rgba(100,100,100,0.1);
     padding: 10px; */
