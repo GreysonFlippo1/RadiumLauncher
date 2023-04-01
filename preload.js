@@ -668,7 +668,7 @@ const renderAchievementsPane = () => {
         document.getElementById('achievementsSubTitle').innerText = `${incomplete} Achievements Left`
         document.getElementById('achievementPercentage').textContent = '0%'
         document.getElementById('achievementPercentage').style.fill = 'rgb(201, 54, 209)'
-        document.getElementById('playButton').classList.remove('goldenPlayButton')
+        // document.getElementById('playButton').classList.remove('goldenPlayButton')
         document.getElementById('playButton').classList.add('playButtonbg')
         
         setProgress(0)
@@ -731,8 +731,8 @@ const renderAchievementsPane = () => {
         circle.style.stroke = 'url(#gold)'
         circle.style.animation = 'goldGlowRing 5s linear 0s infinite forwards'
         document.getElementById('achievementPercentage').style.fill = 'rgb(255, 120, 0)'
-        document.getElementById('playButton').classList.add('goldenPlayButton')
-        document.getElementById('playButton').classList.remove('playButtonbg')
+        // document.getElementById('playButton').classList.add('goldenPlayButton')
+        // document.getElementById('playButton').classList.remove('playButtonbg')
         setTimeout(() => {
             const [complete, incomplete] = state.achievementsRatio
             // let [complete, incomplete] = state.achievementsRatio // use if testing animations
@@ -746,7 +746,7 @@ const renderAchievementsPane = () => {
     } else {
         circle.style.stroke = 'url(#gradient)'
         circle.style.animation = 'none'
-        document.getElementById('playButton').classList.remove('goldenPlayButton')
+        // document.getElementById('playButton').classList.remove('goldenPlayButton')
         document.getElementById('playButton').classList.add('playButtonbg')
         setProgress(complete / (complete + incomplete))
     }
