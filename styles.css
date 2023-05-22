@@ -60,7 +60,7 @@ body {
     position: absolute;
 }
 
-#filterBar {
+#sortBar {
     position: fixed;
     top: 76px;
     height: 32px;
@@ -141,6 +141,10 @@ body {
     border-radius: 7px;
 }
 
+.gameLink:last-of-type {
+    margin-bottom: 25px;
+  }
+
 .selectedGame {
     color: #fff;
     background-image: linear-gradient(90deg, rgba(201, 54, 209, 0.5) 0%, rgba(229, 94, 45, 0.5) 100%);
@@ -200,7 +204,7 @@ body {
     flex: 1 1 0px;
     text-align: center;
     height: 100%;
-    line-height: 30px;
+    line-height: 32px;
     border-radius: 7px;
     text-shadow: 1px -1px 5px rgba(0,0,0,0.64);
     background-size: 18px 18px;
@@ -242,6 +246,13 @@ body {
 .activeTab {
     color: #fff;
     background-color: rgba(255,255,255,0.05);
+}
+
+#navBar .activeTab {
+    background-image: linear-gradient(90deg, rgba(201, 54, 209, 0.5) 0%, rgba(229, 94, 45, 0.5) 100%);
+    background-size: cover;
+    color: #fff;
+    text-shadow: 1px -1px 5px rgba(255,255,255,0);
 }
 
 #backgroundImage {
@@ -969,7 +980,7 @@ body {
         filter: brightness(150%) saturate(80%);
     }
 
-    #filterBar {
+    #sortBar {
         background-color: rgba(255,255,255,0.7);
         border: 1px solid rgba(0,0,0,0.1);
     }
