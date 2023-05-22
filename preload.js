@@ -359,7 +359,14 @@ const setFilterButtons = () => {
     textFilter.addEventListener('input', (e) => { renderGamesList('filter', e.target.value) })
 }
 
-const renderGameTab = (game) => {
+const checkImage = async (url) => {
+    const res = await fetch(url, { method: 'HEAD' })
+    if (res.status !== 200) return false
+    const buff = await res.blob()
+    return buff.type.startsWith('image/')
+}
+
+const renderGameTab = async (game) => {
 
     state.selectedGame.appid && document.getElementById('gameLink' + state.selectedGame.appid)?.classList.remove('selectedGame')
     document.getElementById('gameLink' + game.appid).classList.add('selectedGame')
@@ -416,12 +423,17 @@ const renderGameTab = (game) => {
 
         backgroundBlur.style.transition = 'opacity .5s'
         backgroundBlur.style.opacity = 0
+
+        const imageURL = `https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/library_hero.jpg`
+        const isValidImage = await checkImage(imageURL)
+
         setTimeout(() => {
             backgroundBlur.style.transition = 'opacity 3s'
             backgroundBlur.style.opacity = 1
-            backgroundBlur.style.backgroundImage = `url("https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/library_hero.jpg")`
+            backgroundBlur.style.backgroundImage = isValidImage ? `url("${imageURL}")` : 'linear-gradient(140deg, #ad4897 0%, #764466 50%, #9e581e 80%)'
         }, 500)
-        gameBanner.style.backgroundImage = `url("https://steamcdn-a.akamaihd.net/steam/apps/${game.appid}/library_hero.jpg")`
+
+        gameBanner.style.backgroundImage = isValidImage ? `url("${imageURL}")` : 'linear-gradient(140deg, #ad4897 0%, #764466 50%, #9e581e 80%)'
         gameTitle.innerText = state.selectedGameInfo.name
         getAchievements(game.appid)
         getFriends()
